@@ -1,0 +1,41 @@
+# Django Law App Requirements
+# Core Django Framework
+Django==5.2.4
+
+# Database (SQLite is included with Python, but listing for completeness)
+# For production, you might want to add:
+# psycopg2-binary==2.9.7  # for PostgreSQL
+# mysqlclient==2.2.0      # for MySQL
+
+# Security & Authentication
+django-cors-headers==4.3.1
+
+# Development Tools
+django-debug-toolbar==4.2.0
+
+# Static Files & Media Handling
+whitenoise==6.5.0
+
+# Forms & Validation
+django-crispy-forms==2.0
+crispy-bootstrap5==0.7
+
+# Internationalization (since LANGUAGE_CODE='tr' in settings)
+django-localflavor==4.0
+
+# Production Server (optional)
+gunicorn==21.2.0
+
+# Environment Variables
+python-decouple==3.8
+
+# Date & Time Utilities
+python-dateutil==2.8.2
+
+# For future enhancements (optional)
+# django-extensions==3.2.3     # for development utilities
+# django-allauth==0.57.0       # for social authentication
+# celery==5.3.1                # for background tasks
+# redis==4.6.0                 # for caching and message broker
+# pillow==10.0.0               # for image processing
+# django-storages==1.14.0     # for cloud storage integration
