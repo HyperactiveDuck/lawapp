@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-container">
+    <h2>Hoşgeldiniz!</h2>
+    <p>Bu bir demo uygulamasıdır. Lütfen giriş yapın veya kayıt olun.</p>
+    <div class="auth-links">
+        <a href="{% url 'login' %}" class="btn-primary">Giriş Yap</a>
+        <a href="{% url 'register' %}" class="btn-primary">Kayıt Ol</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,1637 @@
+{% extends 'accounts/client_dashboard.html' %}
+{% block dashboard_content %}
+<div class="dashboard-content">
+    <h2>Avukat Ara</h2>    <form class="provider-search-form" method="get" onsubmit="return false;">
+        <input type="text" name="q" placeholder="Avukat adı veya uzmanlık..." class="search-input" id="searchInput" oninput="filterLawyers()">
+        <select name="specialty" class="search-select" id="specialtySelect" onchange="filterLawyers()">
+            <option value="">Tüm Uzmanlıklar</option>
+            <option value="ceza">Ceza Hukuku</option>
+            <option value="aile">Aile Hukuku</option>
+            <option value="ticaret">Ticaret Hukuku</option>
+            <option value="iş">İş Hukuku</option>
+        </select>
+        <button type="button" class="btn-primary" onclick="filterLawyers()">Ara</button>
+    </form>
+      <div class="provider-list">
+        <!-- Demo: Enhanced lawyer cards with detailed information -->
+        <div class="provider-card" data-specialty="ceza" data-name="ayşe yılmaz" data-expertise="ceza hukuku ağır ceza">
+            <div class="provider-header">
+                <div class="provider-info">
+                    <div class="provider-avatar">
+                        <div class="avatar-circle">AY</div>
+                    </div>
+                    <div class="provider-text">
+                        <span class="provider-name">Av. Ayşe Yılmaz</span>
+                        <span class="provider-specialty">Ceza Hukuku</span>
+                    </div>
+                </div>
+                <div class="status-badge available">Müsait</div>
+            </div>
+            <div class="provider-details">
+                <div class="detail-item">
+                    <span class="detail-label">📍 Konum:</span>
+                    <span class="detail-value">İstanbul, Beşiktaş</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Uzmanlık:</span>
+                    <span class="detail-value">Ceza Hukuku, Ağır Ceza</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🌍 Diller:</span>
+                    <span class="detail-value">Türkçe, İngilizce, Almanca</span>
+                </div>
+            </div>            <div class="provider-footer">
+                <div class="price-info">
+                    <span class="price">45 ₺/dk</span>
+                    <span class="min-price">(Min. 27 ₺)</span>
+                </div>
+                <button class="btn-primary call-btn" onclick="openLegalWarning('ayse-yilmaz', 'Av. Ayşe Yılmaz', 'Ceza Hukuku', 'İstanbul, Beşiktaş', 'Ceza Hukuku, Ağır Ceza', 'Türkçe, İngilizce, Almanca', '45 ₺/dk')">Aramaya Başla</button>
+            </div>
+        </div>        <div class="provider-card" data-specialty="aile" data-name="mehmet demir" data-expertise="aile hukuku boşanma velayet">
+            <div class="provider-header">
+                <div class="provider-info">
+                    <div class="provider-avatar">
+                        <div class="avatar-circle">MD</div>
+                    </div>
+                    <div class="provider-text">
+                        <span class="provider-name">Av. Mehmet Demir</span>
+                        <span class="provider-specialty">Aile Hukuku</span>
+                    </div>
+                </div>
+                <div class="status-badge in-call">Meşgul</div>
+            </div>
+            <div class="provider-details">
+                <div class="detail-item">
+                    <span class="detail-label">📍 Konum:</span>
+                    <span class="detail-value">Ankara, Çankaya</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Uzmanlık:</span>
+                    <span class="detail-value">Aile Hukuku, Boşanma, Velayet</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🌍 Diller:</span>
+                    <span class="detail-value">Türkçe, İngilizce</span>
+                </div>
+            </div>
+            <div class="provider-footer">
+                <div class="price-info">
+                    <span class="price">38 ₺/dk</span>
+                    <span class="min-price">(Min. 27 ₺)</span>
+                </div>
+                <button class="btn-secondary call-btn" disabled>Meşgul</button>
+            </div>
+        </div>        <div class="provider-card" data-specialty="ticaret" data-name="elif kaya" data-expertise="ticaret şirketler sözleşme">
+            <div class="provider-header">
+                <div class="provider-info">
+                    <div class="provider-avatar">
+                        <div class="avatar-circle">EK</div>
+                    </div>
+                    <div class="provider-text">
+                        <span class="provider-name">Av. Elif Kaya</span>
+                        <span class="provider-specialty">Ticaret Hukuku</span>
+                    </div>
+                </div>
+                <div class="status-badge scheduled">14:00 - 18:00 Arası Müsait</div>
+            </div>
+            <div class="provider-details">
+                <div class="detail-item">
+                    <span class="detail-label">📍 Konum:</span>
+                    <span class="detail-value">İzmir, Konak</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Uzmanlık:</span>
+                    <span class="detail-value">Ticaret, Şirketler, Sözleşme</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🌍 Diller:</span>
+                    <span class="detail-value">Türkçe, İngilizce, Fransızca</span>
+                </div>
+            </div>            <div class="provider-footer">
+                <div class="price-info">
+                    <span class="price">52 ₺/dk</span>
+                    <span class="min-price">(Min. 27 ₺)</span>
+                </div>
+                <button class="btn-primary call-btn" onclick="openAppointmentBooking('elif-kaya', 'Av. Elif Kaya', 'Ticaret Hukuku', 'İzmir, Konak', 'Ticaret, Şirketler, Sözleşme', 'Türkçe, İngilizce, Fransızca', '52 ₺/dk')">Randevu Al</button>
+            </div>
+        </div>        <div class="provider-card" data-specialty="iş" data-name="can özkan" data-expertise="iş hukuku işçi hakları">
+            <div class="provider-header">
+                <div class="provider-info">
+                    <div class="provider-avatar">
+                        <div class="avatar-circle">CÖ</div>
+                    </div>
+                    <div class="provider-text">
+                        <span class="provider-name">Av. Can Özkan</span>
+                        <span class="provider-specialty">İş Hukuku</span>
+                    </div>
+                </div>
+                <div class="status-badge available">Müsait</div>
+            </div>
+            <div class="provider-details">
+                <div class="detail-item">
+                    <span class="detail-label">📍 Konum:</span>
+                    <span class="detail-value">Bursa, Osmangazi</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Uzmanlık:</span>
+                    <span class="detail-value">İş Hukuku, İşçi Hakları</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🌍 Diller:</span>
+                    <span class="detail-value">Türkçe, İngilizce, Arapça</span>
+                </div>
+            </div>            <div class="provider-footer">
+                <div class="price-info">
+                    <span class="price">42 ₺/dk</span>
+                    <span class="min-price">(Min. 27 ₺)</span>
+                </div>
+                <button class="btn-primary call-btn" onclick="openLegalWarning('can-ozkan', 'Av. Can Özkan', 'İş Hukuku', 'Bursa, Osmangazi', 'İş Hukuku, İşçi Hakları', 'Türkçe, İngilizce, Arapça', '42 ₺/dk')">Aramaya Başla</button>
+            </div>
+        </div>    </div>
+</div>
+
+<!-- Legal Warning Modal -->
+<div id="legalWarningModal" class="modal">
+    <div class="modal-content">
+        <h3>Yasal Uyarı</h3>
+        <div class="modal-body">
+            <p>Bu hizmet, hukuki danışmanlık amacıyla sağlanmaktadır. Lütfen aşağıdaki koşulları dikkatlice okuyunuz:</p>
+            <ul>
+                <li>Bu görüşme kayıt altına alınabilir</li>
+                <li>Avukat-müvekkil gizliliği kapsamında korunacaktır</li>
+                <li>Dakika başına ücretlendirme yapılacaktır</li>
+                <li>Minimum 27 ₺ ücret uygulanacaktır</li>
+                <li>Görüşme öncesi ödeme yapılması gerekmektedir</li>
+            </ul>
+            <p><strong>Devam ederek bu koşulları kabul etmiş sayılırsınız.</strong></p>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeLegalWarning()">İptal</button>
+            <button class="btn-primary" onclick="proceedToLawyerInfo()">Devam Et</button>
+        </div>
+    </div>
+</div>
+
+<!-- Lawyer Info Modal -->
+<div id="lawyerInfoModal" class="modal">
+    <div class="modal-content">
+        <h3>Avukat Bilgileri</h3>
+        <div class="modal-body">
+            <div class="lawyer-info-card">
+                <div class="lawyer-avatar-large">
+                    <div class="avatar-circle-large" id="modalAvatarCircle">AY</div>
+                </div>
+                <div class="lawyer-details">
+                    <h4 id="modalLawyerName">Av. Ayşe Yılmaz</h4>
+                    <p class="lawyer-specialty" id="modalLawyerSpecialty">Ceza Hukuku</p>
+                    
+                    <div class="detail-row">
+                        <span class="detail-icon">📍</span>
+                        <span class="detail-text" id="modalLawyerLocation">İstanbul, Beşiktaş</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-icon">🎯</span>
+                        <span class="detail-text" id="modalLawyerExpertise">Ceza Hukuku, Ağır Ceza</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-icon">🌍</span>
+                        <span class="detail-text" id="modalLawyerLanguages">Türkçe, İngilizce, Almanca</span>
+                    </div>
+                    
+                    <div class="price-display">
+                        <span class="modal-price" id="modalLawyerPrice">45 ₺/dk</span>
+                        <span class="modal-min-price">(Minimum 27 ₺)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeLawyerInfo()">Geri</button>
+            <button class="btn-primary call-start-btn" onclick="startCall()">Aramayı Başlat</button>
+        </div>
+    </div>
+</div>
+
+<!-- Call Screen -->
+<div id="callScreen" class="call-screen">
+    <div class="call-content">
+        <div class="call-header">
+            <div class="call-status">Aranıyor...</div>
+            <div class="call-timer" id="callTimer">00:00</div>
+        </div>
+        
+        <div class="call-lawyer-info">
+            <div class="call-avatar">
+                <div class="avatar-circle-call" id="callAvatarCircle">AY</div>
+            </div>
+            <h3 id="callLawyerName">Av. Ayşe Yılmaz</h3>
+            <p id="callLawyerSpecialty">Ceza Hukuku</p>
+        </div>
+        
+        <div class="call-controls">
+            <button class="control-btn mute-btn" onclick="toggleMute()">
+                <span id="muteIcon">🎤</span>
+            </button>
+            <button class="control-btn end-call-btn" onclick="endCall()">
+                📞
+            </button>
+            <button class="control-btn speaker-btn" onclick="toggleSpeaker()">
+                <span id="speakerIcon">🔊</span>
+            </button>
+        </div>
+          <div class="call-info">
+            <p>Görüşme ücreti: <span id="callCost">0 ₺</span></p>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Confirmation Modal -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <div class="payment-success">
+            <div class="success-icon">✅</div>
+            <h3>Ödeme Tamamlandı</h3>
+        </div>
+        <div class="modal-body">
+            <div class="payment-details">
+                <div class="payment-row">
+                    <span class="payment-label">Avukat:</span>
+                    <span class="payment-value" id="paymentLawyerName">Av. Ayşe Yılmaz</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Görüşme Süresi:</span>
+                    <span class="payment-value" id="paymentDuration">02:15</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Dakika Ücreti:</span>
+                    <span class="payment-value" id="paymentRate">45 ₺/dk</span>
+                </div>
+                <div class="payment-row total-row">
+                    <span class="payment-label">Toplam Ücret:</span>
+                    <span class="payment-value total-amount" id="paymentTotal">135 ₺</span>
+                </div>
+            </div>
+            <div class="payment-method">
+                <p>💳 Kredi Kartı ****1234 ile ödendi</p>
+                <p class="payment-time">Ödeme Zamanı: <span id="paymentTime"></span></p>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-primary" onclick="closePaymentModal()">Tamam</button>
+        </div>
+    </div>
+</div>
+
+<!-- Appointment Booking Modal -->
+<div id="appointmentModal" class="modal">
+    <div class="modal-content">
+        <h3>Randevu Al</h3>
+        <div class="modal-body">
+            <div class="appointment-lawyer-info">
+                <div class="lawyer-avatar-small">
+                    <div class="avatar-circle-small" id="appointmentAvatarCircle">EK</div>
+                </div>
+                <div class="appointment-lawyer-details">
+                    <h4 id="appointmentLawyerName">Av. Elif Kaya</h4>
+                    <p id="appointmentLawyerSpecialty">Ticaret Hukuku</p>
+                    <p class="appointment-availability">14:00 - 18:00 Arası Müsait</p>
+                </div>
+            </div>
+            
+            <div class="appointment-form">
+                <div class="form-group">
+                    <label for="appointmentDate">Randevu Tarihi:</label>
+                    <input type="date" id="appointmentDate" class="form-input" min="" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointmentTime">Randevu Saati:</label>
+                    <select id="appointmentTime" class="form-select" required>
+                        <option value="">Saat Seçiniz</option>
+                        <option value="14:00">14:00</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:00">15:00</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointmentReason">Görüşme Konusu:</label>
+                    <textarea id="appointmentReason" class="form-textarea" rows="3" placeholder="Hangi konuda danışmanlık almak istiyorsunuz?"></textarea>
+                </div>
+                
+                <div class="appointment-pricing">
+                    <div class="pricing-info">
+                        <span class="pricing-label">Randevu Ücreti:</span>
+                        <span class="pricing-value" id="appointmentPrice">52 ₺/dk</span>
+                    </div>
+                    <p class="pricing-note">Minimum 27 ₺ ücret uygulanır</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeAppointmentModal()">İptal</button>
+            <button class="btn-primary" onclick="confirmAppointment()">Randevu Onayla</button>
+        </div>
+    </div>
+</div>
+
+<!-- Appointment Confirmation Modal -->
+<div id="appointmentConfirmationModal" class="modal">
+    <div class="modal-content">
+        <div class="confirmation-success">
+            <div class="success-icon">📅</div>
+            <h3>Randevu Onaylandı</h3>
+        </div>
+        <div class="modal-body">
+            <div class="confirmation-details">
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Avukat:</span>
+                    <span class="confirmation-value" id="confirmationLawyerName">Av. Elif Kaya</span>
+                </div>
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Tarih:</span>
+                    <span class="confirmation-value" id="confirmationDate">26.07.2025</span>
+                </div>
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Saat:</span>
+                    <span class="confirmation-value" id="confirmationTime">15:00</span>
+                </div>
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Konu:</span>
+                    <span class="confirmation-value" id="confirmationReason">Şirket kurulum danışmanlığı</span>
+                </div>
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Randevu No:</span>
+                    <span class="confirmation-value" id="confirmationNumber">#RDV2025001</span>
+                </div>
+            </div>
+            <div class="confirmation-note">
+                <p>📧 Randevu detayları e-posta adresinize gönderildi</p>
+                <p>📱 Randevu saatinden 15 dakika önce SMS hatırlatması alacaksınız</p>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-primary" onclick="closeAppointmentConfirmation()">Tamam</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.provider-search-form {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.search-input, .search-select {
+    flex: 1;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background: #fafafa;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus, .search-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(51, 102, 204, 0.1);
+}
+
+.search-select {
+    flex: 0 1 auto;
+    min-width: 8rem;
+}
+
+.provider-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.provider-card {
+    background: #fff;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 2px 12px rgba(26,35,126,0.06);
+    border: 1px solid #e8eaf6;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.provider-card:hover {
+    box-shadow: 0 4px 20px rgba(26,35,126,0.1);
+    transform: translateY(-1px);
+}
+
+.provider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.875rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.provider-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.provider-avatar {
+    flex-shrink: 0;
+}
+
+.avatar-circle {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.025em;
+    box-shadow: 0 2px 8px rgba(26,35,126,0.15);
+}
+
+.provider-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.provider-name {
+    font-weight: 600;
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    color: var(--primary);
+    margin-bottom: 0.0625rem;
+    line-height: 1.2;
+}
+
+.provider-specialty {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+    color: #666;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.status-badge {
+    padding: 0.25rem 0.625rem;
+    border-radius: 1rem;
+    font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.status-badge.available {
+    background: linear-gradient(90deg, #4caf50, #45a049);
+    color: white;
+}
+
+.status-badge.in-call {
+    background: linear-gradient(90deg, #ff5722, #e64a19);
+    color: white;
+}
+
+.status-badge.scheduled {
+    background: linear-gradient(90deg, #ff9800, #f57c00);
+    color: white;
+    font-size: clamp(0.5rem, 1.2vw, 0.625rem);
+    padding: 0.375rem 0.625rem;
+}
+
+.provider-details {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.detail-label {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+    font-weight: 600;
+    color: #555;
+    min-width: 5.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.detail-value {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+    color: #333;
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+}
+
+.provider-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.875rem;
+    border-top: 1px solid #f0f0f0;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+}
+
+.price-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.0625rem;
+}
+
+.price {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.2;
+}
+
+.min-price {
+    font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+    color: #888;
+    line-height: 1.3;
+}
+
+.call-btn {
+    min-width: 0;
+    padding: 0.625rem 1.125rem;
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #888;
+    border: none;
+    cursor: not-allowed;
+}
+
+.btn-secondary:hover {
+    background: #e0e0e0;
+    transform: none;
+}
+
+/* Responsive design - mobile first */
+@media (max-width: 480px) {
+    .provider-card {
+        padding: 0.875rem;
+    }
+    
+    .provider-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+    }
+    
+    .provider-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .status-badge {
+        align-self: center;
+    }
+    
+    .detail-item {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        text-align: center;
+    }
+    
+    .detail-label {
+        min-width: 0;
+        justify-content: center;
+    }
+    
+    .detail-value {
+        text-align: center;
+    }
+    
+    .provider-footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+    }
+    
+    .call-btn {
+        width: 100%;
+        padding: 0.75rem;
+        justify-self: stretch;
+    }
+    
+    .search-input, .search-select {
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 481px) {
+    .provider-card {
+        padding: 1.25rem;
+    }
+    
+    .avatar-circle {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 1.125rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .provider-card {
+        padding: 1.5rem;
+    }
+    
+    .provider-list {
+        gap: 1.25rem;
+    }
+      .search-input, .search-select {
+        padding: 1rem 1.25rem;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-content h3 {
+    margin: 0 0 1.5rem 0;
+    color: var(--primary);
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.modal-body {
+    margin-bottom: 2rem;
+}
+
+.modal-body p {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+.modal-body ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.modal-body li {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.modal-actions button {
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 1rem;
+}
+
+/* Lawyer Info Modal Styles */
+.lawyer-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+}
+
+.lawyer-avatar-large {
+    flex-shrink: 0;
+}
+
+.avatar-circle-large {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.025em;
+    box-shadow: 0 4px 16px rgba(26,35,126,0.2);
+}
+
+.lawyer-details h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--primary);
+    font-size: 1.25rem;
+}
+
+.lawyer-specialty {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.detail-icon {
+    font-size: 1rem;
+}
+
+.detail-text {
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.price-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 1rem;
+}
+
+.modal-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.modal-min-price {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.call-start-btn {
+    background: linear-gradient(90deg, #4caf50, #45a049);
+    color: white;
+}
+
+.call-start-btn:hover {
+    background: linear-gradient(90deg, #45a049, #4caf50);
+}
+
+/* Call Screen Styles */
+.call-screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a237e, #3f51b5);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.call-screen.active {
+    display: flex;
+}
+
+.call-content {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+}
+
+.call-header {
+    margin-bottom: 3rem;
+}
+
+.call-status {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.call-timer {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.call-lawyer-info {
+    margin-bottom: 4rem;
+}
+
+.call-avatar {
+    margin-bottom: 1rem;
+}
+
+.avatar-circle-call {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+    backdrop-filter: blur(10px);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 0.025em;
+    margin: 0 auto;
+    border: 3px solid rgba(255,255,255,0.3);
+}
+
+.call-lawyer-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.call-lawyer-info p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 1rem;
+}
+
+.call-controls {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.control-btn {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.05);
+}
+
+.end-call-btn {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+.end-call-btn:hover {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+.call-info {
+    opacity: 0.8;
+    font-size: 1rem;
+}
+
+/* Payment Modal Styles */
+.payment-success {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.success-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.payment-details {
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.payment-row:last-child {
+    border-bottom: none;
+}
+
+.payment-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.payment-value {
+    font-weight: 600;
+    color: #333;
+}
+
+.total-row {
+    border-top: 2px solid #dee2e6;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+}
+
+.total-amount {
+    font-size: 1.25rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.payment-method {
+    text-align: center;
+    padding: 1rem;
+    background: #e8f5e8;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.payment-method p {
+    margin: 0.5rem 0;
+    color: #2e7d2e;
+}
+
+.payment-time {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Appointment Modal Styles */
+.appointment-lawyer-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+}
+
+.lawyer-avatar-small {
+    flex-shrink: 0;
+}
+
+.avatar-circle-small {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.025em;
+    box-shadow: 0 2px 8px rgba(26,35,126,0.15);
+}
+
+.appointment-lawyer-details h4 {
+    margin: 0 0 0.25rem 0;
+    color: var(--primary);
+    font-size: 1.125rem;
+}
+
+.appointment-lawyer-details p {
+    margin: 0;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.appointment-availability {
+    color: #ff9800 !important;
+    font-weight: 600;
+}
+
+.appointment-form {
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(51, 102, 204, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 4rem;
+}
+
+.appointment-pricing {
+    background: #e8f5e8;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.pricing-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.pricing-label {
+    font-weight: 600;
+    color: #2e7d2e;
+}
+
+.pricing-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.pricing-note {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+/* Appointment Confirmation Styles */
+.confirmation-success {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.confirmation-details {
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.confirmation-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.confirmation-row:last-child {
+    border-bottom: none;
+}
+
+.confirmation-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.confirmation-value {
+    font-weight: 600;
+    color: #333;
+}
+
+.confirmation-note {
+    background: #e3f2fd;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.confirmation-note p {
+    margin: 0.5rem 0;
+    color: #1565c0;
+    font-size: 0.9rem;
+}
+
+/* Mobile Responsive for Modals */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 1.5rem;
+        max-width: 95vw;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .modal-actions button {
+        width: 100%;
+    }
+    
+    .lawyer-info-card {
+        gap: 1rem;
+    }
+    
+    .avatar-circle-large {
+        width: 4rem;
+        height: 4rem;
+        font-size: 1.25rem;
+    }
+    
+    .call-controls {
+        gap: 1.5rem;
+    }
+      .control-btn {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.25rem;
+    }
+}
+
+/* No Results Message */
+.no-results-message {
+    display: none;
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #f8f9fa;
+    border-radius: 1rem;
+    margin-top: 2rem;
+}
+
+.no-results-content {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+.no-results-message h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.no-results-message p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.no-results-message .btn-secondary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.no-results-message .btn-secondary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+</style>
+
+<script>
+let currentLawyer = {};
+let callTimer = null;
+let callStartTime = null;
+let isMuted = false;
+let isSpeakerOn = false;
+let finalCallDuration = '';
+let finalCallCost = 0;
+let selectedAppointmentData = {};
+
+function openLegalWarning(lawyerId, name, specialty, location, expertise, languages, price) {
+    currentLawyer = {
+        id: lawyerId,
+        name: name,
+        specialty: specialty,
+        location: location,
+        expertise: expertise,
+        languages: languages,
+        price: price,
+        initials: name.split(' ').map(n => n.charAt(0)).join('').slice(-2)
+    };
+    
+    document.getElementById('legalWarningModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLegalWarning() {
+    document.getElementById('legalWarningModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function proceedToLawyerInfo() {
+    closeLegalWarning();
+    
+    // Update lawyer info modal with current lawyer data
+    document.getElementById('modalAvatarCircle').textContent = currentLawyer.initials;
+    document.getElementById('modalLawyerName').textContent = currentLawyer.name;
+    document.getElementById('modalLawyerSpecialty').textContent = currentLawyer.specialty;
+    document.getElementById('modalLawyerLocation').textContent = currentLawyer.location;
+    document.getElementById('modalLawyerExpertise').textContent = currentLawyer.expertise;
+    document.getElementById('modalLawyerLanguages').textContent = currentLawyer.languages;
+    document.getElementById('modalLawyerPrice').textContent = currentLawyer.price;
+    
+    document.getElementById('lawyerInfoModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLawyerInfo() {
+    document.getElementById('lawyerInfoModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function startCall() {
+    closeLawyerInfo();
+    
+    // Update call screen with current lawyer data
+    document.getElementById('callAvatarCircle').textContent = currentLawyer.initials;
+    document.getElementById('callLawyerName').textContent = currentLawyer.name;
+    document.getElementById('callLawyerSpecialty').textContent = currentLawyer.specialty;
+    
+    document.getElementById('callScreen').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Start call simulation
+    setTimeout(() => {
+        document.querySelector('.call-status').textContent = 'Bağlandı';
+        startCallTimer();
+    }, 3000);
+}
+
+function startCallTimer() {
+    callStartTime = new Date();
+    callTimer = setInterval(() => {
+        const now = new Date();
+        const elapsed = Math.floor((now - callStartTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        
+        document.getElementById('callTimer').textContent = 
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Update cost (simplified calculation)
+        const pricePerMinute = parseInt(currentLawyer.price);
+        const cost = Math.max(27, Math.ceil(elapsed / 60) * pricePerMinute);
+        document.getElementById('callCost').textContent = `${cost} ₺`;
+    }, 1000);
+}
+
+function endCall() {
+    if (callTimer) {
+        clearInterval(callTimer);
+        callTimer = null;
+    }
+    
+    // Store final call data
+    const now = new Date();
+    if (callStartTime) {
+        const elapsed = Math.floor((now - callStartTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        finalCallDuration = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Calculate final cost
+        const pricePerMinute = parseInt(currentLawyer.price);
+        finalCallCost = Math.max(27, Math.ceil(elapsed / 60) * pricePerMinute);
+    } else {
+        finalCallDuration = '00:00';
+        finalCallCost = 27; // Minimum charge
+    }
+    
+    document.getElementById('callScreen').classList.remove('active');
+    
+    // Show payment confirmation modal
+    showPaymentModal();
+    
+    // Reset call screen for next use
+    document.querySelector('.call-status').textContent = 'Aranıyor...';
+    document.getElementById('callTimer').textContent = '00:00';
+    document.getElementById('callCost').textContent = '0 ₺';
+}
+
+function showPaymentModal() {
+    // Update payment modal with call data
+    document.getElementById('paymentLawyerName').textContent = currentLawyer.name;
+    document.getElementById('paymentDuration').textContent = finalCallDuration;
+    document.getElementById('paymentRate').textContent = currentLawyer.price;
+    document.getElementById('paymentTotal').textContent = `${finalCallCost} ₺`;
+    
+    // Set current time
+    const now = new Date();
+    const timeString = now.toLocaleString('tr-TR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    document.getElementById('paymentTime').textContent = timeString;
+    
+    document.getElementById('paymentModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePaymentModal() {
+    document.getElementById('paymentModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+    
+    // Reset variables
+    finalCallDuration = '';
+    finalCallCost = 0;
+    callStartTime = null;
+}
+
+// Appointment booking functions
+function openAppointmentBooking(lawyerId, name, specialty, location, expertise, languages, price) {
+    currentLawyer = {
+        id: lawyerId,
+        name: name,
+        specialty: specialty,
+        location: location,
+        expertise: expertise,
+        languages: languages,
+        price: price,
+        initials: name.split(' ').map(n => n.charAt(0)).join('').slice(-2)
+    };
+    
+    // Update appointment modal with lawyer data
+    document.getElementById('appointmentAvatarCircle').textContent = currentLawyer.initials;
+    document.getElementById('appointmentLawyerName').textContent = currentLawyer.name;
+    document.getElementById('appointmentLawyerSpecialty').textContent = currentLawyer.specialty;
+    document.getElementById('appointmentPrice').textContent = currentLawyer.price;
+    
+    // Set minimum date to today
+    const today = new Date();
+    const minDate = today.toISOString().split('T')[0];
+    document.getElementById('appointmentDate').min = minDate;
+    
+    // Reset form
+    document.getElementById('appointmentDate').value = '';
+    document.getElementById('appointmentTime').value = '';
+    document.getElementById('appointmentReason').value = '';
+    
+    document.getElementById('appointmentModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAppointmentModal() {
+    document.getElementById('appointmentModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function confirmAppointment() {
+    const date = document.getElementById('appointmentDate').value;
+    const time = document.getElementById('appointmentTime').value;
+    const reason = document.getElementById('appointmentReason').value;
+    
+    if (!date || !time) {
+        alert('Lütfen tarih ve saat seçiniz.');
+        return;
+    }
+    
+    // Store appointment data
+    selectedAppointmentData = {
+        lawyer: currentLawyer.name,
+        date: new Date(date).toLocaleDateString('tr-TR'),
+        time: time,
+        reason: reason || 'Genel danışmanlık',
+        number: 'RDV' + new Date().getFullYear() + String(Math.floor(Math.random() * 1000)).padStart(3, '0')
+    };
+    
+    closeAppointmentModal();
+    showAppointmentConfirmation();
+}
+
+function showAppointmentConfirmation() {
+    // Update confirmation modal with appointment data
+    document.getElementById('confirmationLawyerName').textContent = selectedAppointmentData.lawyer;
+    document.getElementById('confirmationDate').textContent = selectedAppointmentData.date;
+    document.getElementById('confirmationTime').textContent = selectedAppointmentData.time;
+    document.getElementById('confirmationReason').textContent = selectedAppointmentData.reason;
+    document.getElementById('confirmationNumber').textContent = '#' + selectedAppointmentData.number;
+    
+    document.getElementById('appointmentConfirmationModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAppointmentConfirmation() {
+    document.getElementById('appointmentConfirmationModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+    
+    // Reset appointment data
+    selectedAppointmentData = {};
+}
+
+function toggleMute() {
+    isMuted = !isMuted;
+    const muteIcon = document.getElementById('muteIcon');
+    muteIcon.textContent = isMuted ? '🎤🚫' : '🎤';
+}
+
+function toggleSpeaker() {
+    isSpeakerOn = !isSpeakerOn;
+    const speakerIcon = document.getElementById('speakerIcon');
+    speakerIcon.textContent = isSpeakerOn ? '📢' : '🔊';
+}
+
+// Close modals when clicking outside
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+        if (event.target.id === 'legalWarningModal') {
+            closeLegalWarning();
+        } else if (event.target.id === 'lawyerInfoModal') {
+            closeLawyerInfo();
+        } else if (event.target.id === 'paymentModal') {
+            closePaymentModal();
+        } else if (event.target.id === 'appointmentModal') {
+            closeAppointmentModal();
+        } else if (event.target.id === 'appointmentConfirmationModal') {
+            closeAppointmentConfirmation();
+        }
+    }
+});
+
+// Filter lawyers function
+function filterLawyers() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const specialtySelect = document.getElementById('specialtySelect').value;
+    const providerCards = document.querySelectorAll('.provider-card');
+    let visibleCount = 0;
+    
+    providerCards.forEach(card => {
+        const specialty = card.getAttribute('data-specialty');
+        const name = card.getAttribute('data-name');
+        const expertise = card.getAttribute('data-expertise');
+        
+        // Check specialty filter
+        const specialtyMatch = !specialtySelect || specialty === specialtySelect;
+        
+        // Check search text filter
+        const searchMatch = !searchInput || 
+                          name.includes(searchInput) || 
+                          expertise.includes(searchInput) ||
+                          specialty.includes(searchInput);
+          // Show/hide card based on filters
+        if (specialtyMatch && searchMatch) {
+            card.style.display = '';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Show/hide no results message
+    showNoResultsMessage(visibleCount === 0);
+}
+
+// Show no results message
+function showNoResultsMessage(show) {
+    let noResultsMsg = document.getElementById('noResultsMessage');
+    
+    if (show) {
+        if (!noResultsMsg) {
+            noResultsMsg = document.createElement('div');
+            noResultsMsg.id = 'noResultsMessage';
+            noResultsMsg.className = 'no-results-message';
+            noResultsMsg.innerHTML = `
+                <div class="no-results-content">
+                    <div class="no-results-icon">🔍</div>
+                    <h3>Sonuç Bulunamadı</h3>
+                    <p>Arama kriterlerinize uygun avukat bulunamadı.</p>
+                    <button class="btn-secondary" onclick="clearFilters()">Filtreleri Temizle</button>
+                </div>
+            `;
+            document.querySelector('.provider-list').appendChild(noResultsMsg);
+        }
+        noResultsMsg.style.display = 'block';
+    } else {
+        if (noResultsMsg) {
+            noResultsMsg.style.display = 'none';
+        }
+    }
+}
+
+// Clear all filters
+function clearFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('specialtySelect').value = '';
+    filterLawyers();
+}
+</script>
+
+{% endblock %}

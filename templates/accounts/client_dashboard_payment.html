@@ -1,0 +1,598 @@
+{% extends 'accounts/client_dashboard.html' %}
+{% block dashboard_content %}
+<div class="dashboard-content">
+    <h2>Ödeme Yöntemi</h2>
+    
+    <!-- Existing Cards Section -->
+    <div class="existing-cards-section">
+        <h3>Kayıtlı Kartlarım</h3>
+        <div class="cards-container">
+            <!-- Primary Card -->
+            <div class="payment-card active" data-card-id="card1">
+                <div class="card-header">
+                    <div class="card-brand">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCA0MCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwNTFBNSIvPgo8Y2lyY2xlIGN4PSIxNSIgY3k9IjEyIiByPSI3IiBmaWxsPSIjRkY1RjAwIi8+CjxjaXJjbGUgY3g9IjI1IiBjeT0iMTIiIHI9IjciIGZpbGw9IiNGRkY1RjAiLz4KPC9zdmc+" alt="Mastercard" class="card-logo">
+                    </div>
+                    <div class="card-actions">
+                        <button class="card-menu-btn" onclick="toggleCardMenu('card1')">⋮</button>
+                        <div class="card-menu" id="cardMenu1">
+                            <button onclick="editCard('card1')">Düzenle</button>
+                            <button onclick="deleteCard('card1')" class="delete-option">Sil</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-number">**** **** **** 1234</div>
+                <div class="card-details">
+                    <div class="card-holder">AYŞE YILMAZ</div>
+                    <div class="card-expiry">12/28</div>
+                </div>
+                <div class="card-status">
+                    <span class="status-badge primary">Ana Kart</span>
+                </div>
+            </div>
+
+            <!-- Secondary Card -->
+            <div class="payment-card" data-card-id="card2">
+                <div class="card-header">
+                    <div class="card-brand">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCA0MCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwNTlBNSIvPgo8dGV4dCB4PSI4IiB5PSIxNiIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4Ij5WSVNBPC90ZXh0Pgo8L3N2Zz4=" alt="Visa" class="card-logo">
+                    </div>
+                    <div class="card-actions">
+                        <button class="card-menu-btn" onclick="toggleCardMenu('card2')">⋮</button>
+                        <div class="card-menu" id="cardMenu2">
+                            <button onclick="editCard('card2')">Düzenle</button>
+                            <button onclick="setAsPrimary('card2')">Ana Kart Yap</button>
+                            <button onclick="deleteCard('card2')" class="delete-option">Sil</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-number">**** **** **** 5678</div>
+                <div class="card-details">
+                    <div class="card-holder">AYŞE YILMAZ</div>
+                    <div class="card-expiry">09/27</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Card Section -->
+    <div class="add-card-section">
+        <button class="btn-add-card" onclick="showAddCardForm()">
+            <span class="add-icon">+</span>
+            Yeni Kart Ekle
+        </button>
+    </div>
+
+    <!-- Add Card Form (Hidden by default) -->
+    <div class="add-card-form-container" id="addCardForm" style="display: none;">
+        <h3>Yeni Kart Ekle</h3>
+        <form class="payment-form" onsubmit="addNewCard(event)">
+            <div class="form-group">
+                <label for="cardName">Kart Üzerindeki İsim</label>
+                <input type="text" id="cardName" name="card_name" placeholder="Tam adınızı giriniz" class="payment-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="cardNumber">Kart Numarası</label>
+                <input type="text" id="cardNumber" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19" class="payment-input" oninput="formatCardNumber(this)" required>
+                <div class="card-type-indicator" id="cardTypeIndicator"></div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="expiryDate">Son Kullanma Tarihi</label>
+                    <input type="text" id="expiryDate" name="expiry" placeholder="AA/YY" maxlength="5" class="payment-input" oninput="formatExpiry(this)" required>
+                </div>
+                <div class="form-group">
+                    <label for="cvvCode">CVV</label>
+                    <input type="text" id="cvvCode" name="cvv" placeholder="123" maxlength="4" class="payment-input" required>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="hideAddCardForm()">İptal</button>
+                <button type="submit" class="btn-primary">Kartı Kaydet</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Payment Security Info -->
+    <div class="security-info">
+        <div class="security-header">
+            <span class="security-icon">🔒</span>
+            <span class="security-title">Güvenli Ödeme</span>
+        </div>
+        <div class="security-features">
+            <div class="security-item">
+                <span class="feature-icon">✓</span>
+                <span class="feature-text">256-bit SSL şifreleme</span>
+            </div>
+            <div class="security-item">
+                <span class="feature-icon">✓</span>
+                <span class="feature-text">PCI DSS uyumluluğu</span>
+            </div>
+            <div class="security-item">
+                <span class="feature-icon">✓</span>
+                <span class="feature-text">Kart bilgileriniz güvende</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.existing-cards-section {
+    margin-bottom: 2rem;
+}
+
+.existing-cards-section h3 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.payment-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    color: white;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.payment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.payment-card.active {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.card-logo {
+    width: 2.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+}
+
+.card-actions {
+    position: relative;
+}
+
+.card-menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: background 0.2s;
+}
+
+.card-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.card-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 10;
+    min-width: 8rem;
+}
+
+.card-menu.active {
+    display: block;
+}
+
+.card-menu button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    color: #333;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.9rem;
+}
+
+.card-menu button:hover {
+    background: #f5f5f5;
+}
+
+.card-menu button.delete-option {
+    color: #e53e3e;
+}
+
+.card-menu button.delete-option:hover {
+    background: #fed7d7;
+}
+
+.card-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    font-family: 'Courier New', monospace;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 0.5rem;
+}
+
+.card-holder {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.card-expiry {
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: 'Courier New', monospace;
+}
+
+.card-status {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.status-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-badge.primary {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.add-card-section {
+    margin-bottom: 2rem;
+}
+
+.btn-add-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1rem;
+    background: transparent;
+    border: 2px dashed var(--border);
+    border-radius: 1rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-add-card:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(79, 172, 254, 0.05);
+}
+
+.add-icon {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.add-card-form-container {
+    background: #f8f9fa;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.add-card-form-container h3 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.payment-input {
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.payment-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.card-type-indicator {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2rem;
+    height: 1.25rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.form-actions button {
+    flex: 1;
+    padding: 0.875rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.btn-secondary:hover {
+    background: #cbd5e0;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.security-info {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.security-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.security-icon {
+    font-size: 1.25rem;
+    color: #0284c7;
+}
+
+.security-title {
+    color: #0284c7;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.security-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.security-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.feature-icon {
+    color: #10b981;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.feature-text {
+    color: #0f766e;
+    font-size: 0.9rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    .payment-card {
+        padding: 1.25rem;
+    }
+    
+    .card-number {
+        font-size: 1.1rem;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .cards-container {
+        gap: 0.75rem;
+    }
+}
+</style>
+
+<script>
+function toggleCardMenu(cardId) {
+    // Close all other menus
+    document.querySelectorAll('.card-menu').forEach(menu => {
+        if (menu.id !== `cardMenu${cardId.slice(-1)}`) {
+            menu.classList.remove('active');
+        }
+    });
+    
+    // Toggle current menu
+    const menu = document.getElementById(`cardMenu${cardId.slice(-1)}`);
+    menu.classList.toggle('active');
+}
+
+function showAddCardForm() {
+    document.getElementById('addCardForm').style.display = 'block';
+    document.getElementById('addCardForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideAddCardForm() {
+    document.getElementById('addCardForm').style.display = 'none';
+    // Reset form
+    document.querySelector('.payment-form').reset();
+}
+
+function formatCardNumber(input) {
+    let value = input.value.replace(/\D/g, '');
+    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    input.value = value;
+    
+    // Detect card type
+    const cardType = detectCardType(value.replace(/\s/g, ''));
+    updateCardTypeIndicator(cardType);
+}
+
+function formatExpiry(input) {
+    let value = input.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+    }
+    input.value = value;
+}
+
+function detectCardType(number) {
+    const patterns = {
+        visa: /^4/,
+        mastercard: /^5[1-5]/,
+        amex: /^3[47]/
+    };
+    
+    for (const [type, pattern] of Object.entries(patterns)) {
+        if (pattern.test(number)) {
+            return type;
+        }
+    }
+    return null;
+}
+
+function updateCardTypeIndicator(type) {
+    const indicator = document.getElementById('cardTypeIndicator');
+    const icons = {
+        visa: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCA0MCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwNTlBNSIvPgo8dGV4dCB4PSI4IiB5PSIxNiIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4Ij5WSVNBPC90ZXh0Pgo8L3N2Zz4=',
+        mastercard: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCA0MCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwNTFBNSIvPgo8Y2lyY2xlIGN4PSIxNSIgY3k9IjEyIiByPSI3IiBmaWxsPSIjRkY1RjAwIi8+CjxjaXJjbGUgY3g9IjI1IiBjeT0iMTIiIHI9IjciIGZpbGw9IiNGRkY1RjAiLz4KPC9zdmc+'
+    };
+    
+    if (type && icons[type]) {
+        indicator.style.backgroundImage = `url(${icons[type]})`;
+        indicator.style.display = 'block';
+    } else {
+        indicator.style.display = 'none';
+    }
+}
+
+function addNewCard(event) {
+    event.preventDefault();
+    
+    // Simulate adding card
+    alert('Yeni kart başarıyla eklendi!');
+    hideAddCardForm();
+}
+
+function editCard(cardId) {
+    alert(`${cardId} kartını düzenle`);
+    toggleCardMenu(cardId);
+}
+
+function deleteCard(cardId) {
+    if (confirm('Bu kartı silmek istediğinizden emin misiniz?')) {
+        alert(`${cardId} kartı silindi`);
+    }
+    toggleCardMenu(cardId);
+}
+
+function setAsPrimary(cardId) {
+    alert(`${cardId} ana kart olarak ayarlandı`);
+    toggleCardMenu(cardId);
+}
+
+// Close menus when clicking outside
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.card-actions')) {
+        document.querySelectorAll('.card-menu').forEach(menu => {
+            menu.classList.remove('active');
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-container">
+    <h2>Kayıt Ol</h2>
+    <form method="post" class="auth-form" id="register-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">{{ form.username.label_tag }}{{ form.username }}</div>
+        <div class="form-group">{{ form.email.label_tag }}{{ form.email }}</div>        <div class="form-group">{{ form.user_type.label_tag }}{{ form.user_type }}</div>
+        
+        <!-- E-Devlet Login Button for Providers -->
+        <div class="form-group e-devlet-section" id="edevletSection" style="display: none;">
+            <button type="button" class="btn-edevlet" onclick="loginWithEdevlet()">
+                <span class="edevlet-icon">🏛️</span>
+                E-Devlet ile Giriş Yap
+            </button>
+            <p class="edevlet-note">Avukat kimliğinizi doğrulamak için E-Devlet sistemi kullanılacaktır.</p>
+        </div>
+        
+        <div class="form-group">{{ form.password1.label_tag }}{{ form.password1 }}</div>
+        <div class="form-group">{{ form.password2.label_tag }}{{ form.password2 }}</div>
+        <div class="form-group legal-group">
+            <label class="custom-checkbox">
+                <input type="checkbox" id="agreement" name="agreement" required>
+                <span class="checkmark"></span>
+                <span id="agreement-link">Uyarıyı okudum ve anladım</span>
+            </label>
+        </div>
+        <button type="submit" class="btn-primary">Kayıt Ol</button>
+    </form>
+    <div class="auth-links">
+        <a href="{% url 'login' %}">Zaten hesabınız var mı? Giriş Yap</a>
+    </div>
+</div>
+
+<!-- Modal for Legal Agreement -->
+<div id="legal-modal" class="legal-modal">
+    <div class="legal-modal-content">
+        <h3>Yasal Uyarı ve Kullanıcı Sözleşmesi</h3>
+        <div class="legal-modal-body">
+            <p><b>Bu uygulama bir demo uygulamasıdır.</b> Burada sunulan bilgiler ve hizmetler yalnızca tanıtım amaçlıdır ve herhangi bir hukuki tavsiye teşkil etmez. Kayıt olarak, bu koşulları okuduğunuzu ve anladığınızı kabul etmiş olursunuz.</p>
+            <ul>
+                <li>Verdiğiniz bilgiler demo amaçlıdır ve gerçek bir hizmet ilişkisi doğurmaz.</li>
+                <li>Kişisel verileriniz demo ortamında saklanacaktır.</li>
+                <li>Herhangi bir hukuki sorumluluk kabul edilmez.</li>
+            </ul>
+            <p>Daha fazla bilgi için lütfen bizimle iletişime geçin.</p>
+        </div>
+        <button onclick="document.getElementById('legal-modal').style.display='none'" class="btn-primary" style="margin:0;">Kapat</button>
+    </div>
+</div>
+<script>
+    document.getElementById('agreement-link').onclick = function() {
+        document.getElementById('legal-modal').style.display = 'flex';
+    };
+    document.getElementById('legal-modal').onclick = function(e) {
+        if (e.target === this) this.style.display = 'none';
+    };
+    
+    // Show/hide E-Devlet section based on user type
+    document.addEventListener('DOMContentLoaded', function() {
+        const userTypeSelect = document.querySelector('select[name="user_type"]');
+        const edevletSection = document.getElementById('edevletSection');
+        
+        function toggleEdevletSection() {
+            if (userTypeSelect.value === 'provider') {
+                edevletSection.style.display = 'block';
+            } else {
+                edevletSection.style.display = 'none';
+            }
+        }
+        
+        userTypeSelect.addEventListener('change', toggleEdevletSection);
+        toggleEdevletSection(); // Check initial state
+    });
+    
+    function loginWithEdevlet() {
+        // Simulate E-Devlet login process
+        const btn = document.querySelector('.btn-edevlet');
+        const originalText = btn.innerHTML;
+        
+        btn.innerHTML = '<span class="loading-spinner"></span>E-Devlet\'e yönlendiriliyor...';
+        btn.disabled = true;
+        
+        setTimeout(function() {
+            alert('E-Devlet doğrulaması tamamlandı!\n\nDoğrulanan Bilgiler:\n- Ad Soyad: Av. Mehmet Yılmaz\n- TC Kimlik: ***********\n- Baro Sicil No: 12345\n- Baro: İstanbul Barosu');
+            
+            // Fill form with verified data
+            document.querySelector('input[name="username"]').value = 'av.mehmet.yilmaz';
+            document.querySelector('input[name="email"]').value = 'mehmet.yilmaz@istanbulbaro.org.tr';
+            
+            btn.innerHTML = '✅ Doğrulama Tamamlandı';
+            btn.style.background = '#10b981';
+        }, 2000);
+    }
+</script>
+<style>
+.legal-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #444;
+}
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+    user-select: none;
+    gap: 8px;
+}
+.custom-checkbox input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background: #f5f6fa;
+    border: 2px solid var(--accent);
+    display: inline-block;
+    position: relative;
+    transition: background 0.2s, border 0.2s;
+}
+.custom-checkbox input:checked ~ .checkmark {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+.custom-checkbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+    content: "";
+    position: absolute;
+}
+#agreement-link {
+    color: var(--accent);
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+    margin-left: 2px;
+}
+.legal-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.45);
+    align-items: center;
+    justify-content: center;
+}
+.legal-modal-content {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 95vw;
+    width: 370px;
+    padding: 28px 20px 20px 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeInScale 0.2s;
+}
+.legal-modal-content h3 {
+    margin-top: 0;
+    color: var(--primary);
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 600;
+}
+.legal-modal-body {
+    max-height: 40vh;
+    overflow-y: auto;
+    font-size: 14px;
+    color: #222;
+    margin-bottom: 18px;
+    width: 100%;
+}
+.legal-modal-body ul {
+    padding-left: 18px;
+    margin: 10px 0;
+}
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+@media (max-width: 500px) {
+    .legal-modal-content {
+        width: 98vw;
+        padding: 16px 4vw 12px 4vw;
+    }
+}
+
+/* E-Devlet Section Styles */
+.e-devlet-section {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 0.75rem 0;
+    max-width: 335px
+}
+
+.btn-edevlet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: auto;
+    max-width: 250px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+    min-height: 44px;
+}
+
+.btn-edevlet:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(220, 38, 38, 0.25);
+}
+
+.btn-edevlet:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.edevlet-icon {
+    font-size: 1.1rem;
+}
+
+.edevlet-note {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    font-size: 0.8rem;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 2px solid white;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+{% endblock %}

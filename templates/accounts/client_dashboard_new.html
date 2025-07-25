@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% block viewport %}
+<div class="full-viewport">
+    <div class="dashboard-wrapper">
+        <input type="checkbox" id="sidemenu-toggle" class="sidemenu-toggle" hidden>
+        <label for="sidemenu-toggle" class="sidemenu-hamburger">
+            <span></span><span></span><span></span>
+        </label>
+        <div class="sidemenu-overlay" onclick="document.getElementById('sidemenu-toggle').checked = false;"></div>
+        
+        <nav class="client-sidemenu">
+            <div class="menu-header">
+                <h3>Menü</h3>
+            </div>
+            <a href="{% url 'client_dashboard' %}" class="menu-link {% if request.resolver_match.url_name == 'client_dashboard' %}active{% endif %}">Avukat Ara</a>
+            <a href="{% url 'client_call_history' %}" class="menu-link {% if request.resolver_match.url_name == 'client_call_history' %}active{% endif %}">Görüşme Geçmişi</a>
+            <a href="{% url 'client_payment' %}" class="menu-link {% if request.resolver_match.url_name == 'client_payment' %}active{% endif %}">Ödeme Yöntemi</a>
+            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="btn-primary logout-btn">Çıkış Yap</button>
+            </form>
+        </nav>
+        
+        <main class="dashboard-main">
+            {% block dashboard_content %}{% endblock %}
+        </main>
+    </div>
+</div>
+
+<style>
+/* Mobile-first dashboard styles */
+.dashboard-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+}
+
+/* Hamburger menu - positioned at top-left */
+.sidemenu-hamburger {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1002;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(26,35,126,0.12);
+    border: 1px solid #e3e6f0;
+    gap: 4px;
+}
+
+.sidemenu-hamburger span {
+    display: block;
+    width: 20px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+/* Side menu overlay for mobile */
+.sidemenu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+.sidemenu-toggle:checked ~ .dashboard-wrapper .sidemenu-overlay {
+    display: block;
+}
+
+/* Side menu */
+.client-sidemenu {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 0 24px 0;
+    transition: left 0.3s ease;
+}
+
+.sidemenu-toggle:checked ~ .dashboard-wrapper .client-sidemenu {
+    left: 0;
+}
+
+.menu-header {
+    padding: 0 24px 16px 24px;
+    border-bottom: 1px solid #e3e6f0;
+    margin-bottom: 16px;
+}
+
+.menu-header h3 {
+    margin: 0;
+    color: var(--primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.menu-link {
+    padding: 16px 24px;
+    color: #1a237e;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.2s;
+    border-left: 4px solid transparent;
+}
+
+.menu-link:hover {
+    background: #f7f8fc;
+    border-left-color: var(--accent);
+}
+
+.menu-link.active {
+    background: #f0f4ff;
+    color: var(--accent);
+    border-left-color: var(--accent);
+}
+
+.logout-form {
+    margin: auto 24px 0 24px;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 16px;
+    border-radius: 12px;
+}
+
+/* Main content area */
+.dashboard-main {
+    flex: 1;
+    padding: 80px 16px 24px 16px;
+    background: var(--background);
+    min-height: 100vh;
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+    .sidemenu-hamburger {
+        display: none;
+    }
+    
+    .client-sidemenu {
+        position: relative;
+        left: 0;
+        width: 240px;
+        padding: 32px 0 24px 0;
+        box-shadow: none;
+        border-right: 1px solid #e3e6f0;
+    }
+    
+    .dashboard-main {
+        padding: 32px 32px 24px 32px;
+        max-width: 800px;
+    }
+    
+    .menu-header {
+        padding: 0 20px 16px 20px;
+    }
+    
+    .menu-link {
+        padding: 14px 20px;
+    }
+    
+    .logout-form {
+        margin: auto 20px 0 20px;
+    }
+}
+
+/* Content styling */
+.dashboard-content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+}
+
+.dashboard-content h2 {
+    margin: 0 0 24px 0;
+    color: var(--primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+@media (min-width: 768px) {
+    .dashboard-content {
+        padding: 32px;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,1909 @@
+{% extends 'base.html' %}
+{% block viewport %}
+<div class="full-viewport">
+    <input type="checkbox" id="sidemenu-toggle" class="sidemenu-toggle" hidden>
+    <label for="sidemenu-toggle" class="sidemenu-hamburger">
+        <span></span><span></span><span></span>
+    </label>
+    <div class="sidemenu-overlay"></div>
+    
+    <nav class="provider-sidemenu">
+        <div class="menu-header">
+            <div class="provider-profile">
+                <div class="provider-avatar">
+                    <div class="avatar-circle">MY</div>
+                </div>
+                <div class="provider-info">
+                    <h4>Av. Mehmet Yılmaz</h4>
+                    <p>Ceza Hukuku</p>
+                </div>
+            </div>
+        </div>
+        <a href="{% url 'provider_dashboard' %}" class="menu-link active">Genel Bakış</a>
+        <a href="#" class="menu-link" onclick="showProviderSection('calls')">Aktif Görüşmeler</a>
+        <a href="#" class="menu-link" onclick="showProviderSection('appointments')">Randevular</a>
+        <a href="#" class="menu-link" onclick="showProviderSection('earnings')">Kazançlar</a>
+        <a href="#" class="menu-link" onclick="showProviderSection('profile')">Profil Ayarları</a>
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary logout-btn">Çıkış Yap</button>
+        </form>
+    </nav>
+    
+    <main class="dashboard-main">
+        {% block dashboard_content %}
+        <div class="dashboard-content">
+            <!-- Overview Section -->
+            <div id="overview-section" class="provider-section active">
+                <h2>Genel Bakış</h2>
+                
+                <!-- Status Card -->
+                <div class="status-card">
+                    <div class="status-header">
+                        <h3>Mevcut Durum</h3>
+                        <div class="availability-toggle">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="availabilityToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="availability-text">Müsait</span>
+                        </div>
+                    </div>
+                    <div class="status-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Bekleyen Çağrı</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Bugünkü Randevu</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="schedule-card">
+                    <h3>Bugünkü Program</h3>
+                    <div class="schedule-list">
+                        <div class="schedule-item">
+                            <div class="schedule-time">09:30</div>
+                            <div class="schedule-info">
+                                <div class="client-name">Ayşe Demir</div>
+                                <div class="case-type">Boşanma Davası</div>
+                            </div>
+                            <div class="schedule-status upcoming">Yaklaşıyor</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-time">11:00</div>
+                            <div class="schedule-info">
+                                <div class="client-name">Mehmet Kaya</div>
+                                <div class="case-type">İş Hukuku</div>
+                            </div>
+                            <div class="schedule-status confirmed">Onaylandı</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-time">14:30</div>
+                            <div class="schedule-info">
+                                <div class="client-name">Fatma Özkan</div>
+                                <div class="case-type">Miras Hukuku</div>
+                            </div>
+                            <div class="schedule-status confirmed">Onaylandı</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📞</div>
+                        <div class="stat-content">
+                            <div class="stat-value">24</div>
+                            <div class="stat-title">Bu Hafta Görüşme</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <div class="stat-value">2,340 ₺</div>
+                            <div class="stat-title">Bu Ay Kazanç</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-content">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-title">Ortalama Puan</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <div class="stat-value">156</div>
+                            <div class="stat-title">Toplam Müvekkil</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Calls Section -->
+            <div id="calls-section" class="provider-section">
+                <h2>Aktif Görüşmeler</h2>
+                <div class="calls-container">
+                    <div class="call-item active-call">
+                        <div class="call-info">
+                            <div class="client-avatar">
+                                <div class="avatar-circle">AD</div>
+                            </div>
+                            <div class="call-details">
+                                <div class="client-name">Ayşe Demir</div>
+                                <div class="call-duration">12:34</div>
+                            </div>
+                        </div>
+                        <div class="call-actions">
+                            <button class="btn-call-action end">Görüşmeyi Sonlandır</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pending-calls">
+                        <h4>Bekleyen Çağrılar</h4>
+                        <div class="call-item pending">
+                            <div class="call-info">
+                                <div class="client-avatar">
+                                    <div class="avatar-circle">MK</div>
+                                </div>
+                                <div class="call-details">
+                                    <div class="client-name">Mehmet Kaya</div>
+                                    <div class="call-subject">İş Hukuku Danışmanlığı</div>
+                                </div>
+                            </div>
+                            <div class="call-actions">
+                                <button class="btn-call-action accept">Kabul Et</button>
+                                <button class="btn-call-action decline">Reddet</button>
+                            </div>
+                        </div>
+                        <div class="call-item pending">
+                            <div class="call-info">
+                                <div class="client-avatar">
+                                    <div class="avatar-circle">FÖ</div>
+                                </div>
+                                <div class="call-details">
+                                    <div class="client-name">Fatma Özkan</div>
+                                    <div class="call-subject">Miras Hukuku</div>
+                                </div>
+                            </div>
+                            <div class="call-actions">
+                                <button class="btn-call-action accept">Kabul Et</button>
+                                <button class="btn-call-action decline">Reddet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Section -->
+            <div id="appointments-section" class="provider-section">
+                <h2>Randevular</h2>
+                <div class="appointments-container">                <div class="appointment-filters">
+                        <button class="filter-btn active" onclick="filterAppointments('all')">Tümü</button>
+                        <button class="filter-btn" onclick="filterAppointments('today')">Bugün</button>
+                        <button class="filter-btn" onclick="filterAppointments('upcoming')">Yaklaşan</button>
+                        <button class="filter-btn" onclick="filterAppointments('completed')">Tamamlanan</button>
+                        <button class="filter-btn" onclick="filterAppointments('canceled')">İptal Edilen</button>
+                    </div>
+                    
+                    <div class="appointments-list">
+                        <div class="appointment-item upcoming" data-status="upcoming">
+                            <div class="appointment-time">
+                                <div class="date">25 Tem</div>
+                                <div class="time">09:30</div>
+                            </div>
+                            <div class="appointment-info">
+                                <div class="appointment-header">
+                                    <div class="client-avatar">
+                                        <div class="avatar-circle small">AD</div>
+                                    </div>
+                                    <div class="client-details">
+                                        <div class="client-name">Ayşe Demir</div>
+                                        <div class="client-contact">+90 532 123 45 67</div>
+                                    </div>
+                                </div>
+                                <div class="appointment-type">Boşanma Davası Danışmanlığı</div>
+                                <div class="appointment-meta">
+                                    <span class="duration">60 dakika</span>
+                                    <span class="fee">₺270</span>
+                                </div>
+                            </div>
+                            <div class="appointment-actions">
+                                <button class="btn-appointment confirm">Onayla</button>
+                                <button class="btn-appointment reschedule">Ertele</button>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-item confirmed" data-status="confirmed">
+                            <div class="appointment-time">
+                                <div class="date">25 Tem</div>
+                                <div class="time">11:00</div>
+                            </div>
+                            <div class="appointment-info">
+                                <div class="appointment-header">
+                                    <div class="client-avatar">
+                                        <div class="avatar-circle small">MK</div>
+                                    </div>
+                                    <div class="client-details">
+                                        <div class="client-name">Mehmet Kaya</div>
+                                        <div class="client-contact">+90 543 987 65 43</div>
+                                    </div>
+                                </div>
+                                <div class="appointment-type">İş Hukuku Danışmanlığı</div>
+                                <div class="appointment-meta">
+                                    <span class="duration">45 dakika</span>
+                                    <span class="fee">₺202</span>
+                                </div>
+                            </div>
+                            <div class="appointment-actions">
+                                <div class="status-badge confirmed">Onaylandı</div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-item completed" data-status="completed">
+                            <div class="appointment-time">
+                                <div class="date">24 Tem</div>
+                                <div class="time">14:30</div>
+                            </div>
+                            <div class="appointment-info">
+                                <div class="appointment-header">
+                                    <div class="client-avatar">
+                                        <div class="avatar-circle small">FÖ</div>
+                                    </div>
+                                    <div class="client-details">
+                                        <div class="client-name">Fatma Özkan</div>
+                                        <div class="client-contact">+90 555 321 98 76</div>
+                                    </div>
+                                </div>
+                                <div class="appointment-type">Miras Hukuku Danışmanlığı</div>
+                                <div class="appointment-meta">
+                                    <span class="duration">90 dakika</span>
+                                    <span class="fee">₺405</span>
+                                </div>
+                            </div>
+                            <div class="appointment-actions">
+                                <div class="status-badge completed">Tamamlandı</div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-item canceled" data-status="canceled">
+                            <div class="appointment-time">
+                                <div class="date">24 Tem</div>
+                                <div class="time">16:00</div>
+                            </div>
+                            <div class="appointment-info">
+                                <div class="appointment-header">
+                                    <div class="client-avatar">
+                                        <div class="avatar-circle small">AY</div>
+                                    </div>
+                                    <div class="client-details">
+                                        <div class="client-name">Ali Yılmaz</div>
+                                        <div class="client-contact">+90 532 456 78 90</div>
+                                    </div>
+                                </div>
+                                <div class="appointment-type">Emlak Hukuku Danışmanlığı</div>
+                                <div class="appointment-meta">
+                                    <span class="duration">30 dakika</span>
+                                    <span class="fee canceled-fee">₺135</span>
+                                </div>
+                            </div>
+                            <div class="appointment-actions">
+                                <div class="status-badge canceled">İptal Edildi</div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-item upcoming" data-status="upcoming">
+                            <div class="appointment-time">
+                                <div class="date">26 Tem</div>
+                                <div class="time">10:15</div>
+                            </div>
+                            <div class="appointment-info">
+                                <div class="appointment-header">
+                                    <div class="client-avatar">
+                                        <div class="avatar-circle small">ZK</div>
+                                    </div>
+                                    <div class="client-details">
+                                        <div class="client-name">Zeynep Kara</div>
+                                        <div class="client-contact">+90 544 123 45 67</div>
+                                    </div>
+                                </div>
+                                <div class="appointment-type">Aile Hukuku ve Velayet Davası</div>
+                                <div class="appointment-meta">
+                                    <span class="duration">75 dakika</span>
+                                    <span class="fee">₺337</span>
+                                </div>
+                            </div>
+                            <div class="appointment-actions">
+                                <button class="btn-appointment confirm">Onayla</button>
+                                <button class="btn-appointment reschedule">Ertele</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings Section -->
+            <div id="earnings-section" class="provider-section">
+                <h2>Kazançlar</h2>
+                <div class="earnings-summary">
+                    <div class="earnings-card">
+                        <h4>Bu Ay</h4>
+                        <div class="earnings-amount">2,340 ₺</div>
+                        <div class="earnings-change positive">+12% geçen aya göre</div>
+                    </div>
+                    <div class="earnings-card">
+                        <h4>Bu Hafta</h4>
+                        <div class="earnings-amount">680 ₺</div>
+                        <div class="earnings-change positive">+8% geçen haftaya göre</div>
+                    </div>
+                </div>
+                  <div class="earnings-details">
+                    <h4>Son İşlemler</h4>
+                    <div class="earnings-list">
+                        <div class="earning-item">
+                            <div class="earning-info">
+                                <div class="client-name">Ayşe Demir</div>
+                                <div class="earning-date">24 Temmuz 2025, 14:30</div>
+                            </div>
+                            <div class="earning-amount">135 ₺</div>
+                        </div>
+                        <div class="earning-item">
+                            <div class="earning-info">
+                                <div class="client-name">Mehmet Kaya</div>
+                                <div class="earning-date">24 Temmuz 2025, 10:15</div>
+                            </div>
+                            <div class="earning-amount">95 ₺</div>
+                        </div>
+                        <div class="earning-item">
+                            <div class="earning-info">
+                                <div class="client-name">Fatma Özkan</div>
+                                <div class="earning-date">23 Temmuz 2025, 16:45</div>
+                            </div>
+                            <div class="earning-amount">180 ₺</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Settings -->
+                <div class="payment-settings">
+                    <h4>Ödeme Ayarları</h4>
+                    <div class="payment-form">
+                        <div class="form-group">
+                            <label>IBAN Numarası</label>
+                            <input type="text" class="form-input iban-input" 
+                                   placeholder="TR00 0000 0000 0000 0000 0000 00" 
+                                   value="TR64 0001 2345 6789 0123 4567 89"
+                                   maxlength="34">
+                            <small class="form-help">Kazancınızın aktarılacağı banka hesabı IBAN numarası</small>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Banka Adı</label>
+                                <input type="text" class="form-input" value="Türkiye İş Bankası">
+                            </div>
+                            <div class="form-group">
+                                <label>Hesap Sahibi</label>
+                                <input type="text" class="form-input" value="Av. Mehmet Yılmaz">
+                            </div>
+                        </div>
+                        
+                        <div class="payment-schedule">
+                            <label>Ödeme Periyodu</label>
+                            <select class="form-input">
+                                <option>Haftalık (Her Pazartesi)</option>
+                                <option selected>Aylık (Ayın 1'i)</option>
+                                <option>15 Günde Bir</option>
+                            </select>
+                            <small class="form-help">Kazancınızın ne sıklıkla hesabınıza aktarılacağını belirleyin</small>
+                        </div>
+                        
+                        <div class="payment-actions">
+                            <button type="button" class="btn-secondary">İptal</button>
+                            <button type="submit" class="btn-primary">Ödeme Bilgilerini Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Invoice Information -->
+                <div class="invoice-settings">
+                    <h4>Fatura Bilgileri</h4>
+                    <div class="invoice-form">
+                        <div class="form-group">
+                            <label>Fatura Unvanı</label>
+                            <input type="text" class="form-input" value="Av. Mehmet Yılmaz Hukuk Bürosu">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Vergi Numarası</label>
+                                <input type="text" class="form-input" value="1234567890" maxlength="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Vergi Dairesi</label>
+                                <input type="text" class="form-input" value="Şişli Vergi Dairesi">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Fatura Adresi</label>
+                            <textarea class="form-textarea" rows="3" 
+                                      placeholder="Faturalarınızın gönderileceği adres">Levent Mahallesi, Büyükdere Caddesi No: 145, K: 12 D: 34, Şişli/İstanbul</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>E-Fatura Email</label>
+                            <input type="email" class="form-input" value="fatura@mehmetyilmaz.com">
+                            <small class="form-help">E-faturalarınız bu adrese gönderilecektir</small>
+                        </div>
+                        
+                        <div class="invoice-actions">
+                            <button type="button" class="btn-secondary">İptal</button>
+                            <button type="submit" class="btn-primary">Fatura Bilgilerini Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>            <!-- Profile Section -->
+            <div id="profile-section" class="provider-section">
+                <h2>Profil Ayarları</h2>
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label>Profil Fotoğrafı</label>
+                        <div class="profile-photo">
+                            <div class="avatar-circle large">MY</div>
+                            <div>
+                                <button class="btn-upload">Fotoğraf Yükle</button>
+                                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem; color: var(--text-secondary);">
+                                    JPG, PNG formatında, maksimum 2MB
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ad Soyad</label>
+                            <input type="text" value="Av. Mehmet Yılmaz" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Baro Sicil No</label>
+                            <input type="text" value="12345" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>E-posta Adresi</label>
+                        <input type="email" value="mehmet.yilmaz@istanbulbaro.org.tr" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Telefon Numarası</label>
+                        <input type="tel" value="+90 532 123 45 67" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Uzmanlık Alanları</label>
+                        <textarea class="form-textarea" rows="3" placeholder="Uzmanlık alanlarınızı virgülle ayırarak yazınız">Ceza Hukuku, Ağır Ceza, Kabahatler Hukuku, Adli Tıp</textarea>
+                    </div>
+                      <div class="form-row rate-row">
+                        <div class="form-group">
+                            <label>Dakika Başı Ücret</label>
+                            <div class="rate-input-container">
+                                <input type="number" value="45" class="form-input" min="10" max="200">
+                                <span class="rate-suffix">₺/dk</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum Ücret</label>
+                            <div class="rate-input-container">
+                                <input type="number" value="27" class="form-input" min="10" max="100">
+                                <span class="rate-suffix">₺</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Çalışma Saatleri</label>
+                        <div class="working-hours">
+                            <input type="time" value="09:00" class="form-input small">
+                            <span>-</span>
+                            <input type="time" value="18:00" class="form-input small">
+                            <select class="form-input small">
+                                <option>Pazartesi-Cuma</option>
+                                <option>Pazartesi-Cumartesi</option>
+                                <option>Her Gün</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ofis Adresi</label>
+                        <textarea class="form-textarea" rows="2" placeholder="Tam adresinizi giriniz">Levent Mahallesi, Büyükdere Caddesi No: 145, K: 12 D: 34, Şişli/İstanbul</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Hakkımda</label>
+                        <textarea class="form-textarea" rows="4" placeholder="Kendinizi tanıtın, deneyimlerinizi paylaşın">15 yıllık deneyime sahip ceza hukuku uzmanı. İstanbul Barosu üyesi. Ağır ceza davaları, kabahatler hukuku ve adli tıp konularında uzmanlaşmış.</textarea>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button type="button" class="btn-secondary">İptal</button>
+                        <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+</div>
+
+<style>
+/* Mobile-first provider dashboard */
+.full-viewport {
+    min-height: 100vh;
+    display: flex;
+    position: relative;
+}
+
+.sidemenu-hamburger {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1002;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(26,35,126,0.12);
+    border: 1px solid #e3e6f0;
+    gap: 4px;
+}
+
+.sidemenu-hamburger span {
+    width: 20px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+.sidemenu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+.sidemenu-toggle:checked ~ .sidemenu-overlay {
+    display: block;
+}
+
+.provider-sidemenu {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 0 24px 0;
+    transition: left 0.3s ease;
+}
+
+.sidemenu-toggle:checked ~ .provider-sidemenu {
+    left: 0;
+}
+
+.menu-header {
+    padding: 0 24px 16px 24px;
+    border-bottom: 1px solid #e3e6f0;
+    margin-bottom: 16px;
+}
+
+.provider-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.provider-avatar .avatar-circle {
+    width: 48px;
+    height: 48px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.provider-info h4 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.provider-info p {
+    margin: 4px 0 0 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.menu-link {
+    display: block;
+    padding: 12px 24px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.menu-link:hover {
+    background: #f8f9fa;
+    color: var(--primary);
+}
+
+.menu-link.active {
+    background: rgba(79, 172, 254, 0.1);
+    color: var(--primary);
+    border-left-color: var(--primary);
+}
+
+.logout-form {
+    margin: auto 24px 0 24px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e3e6f0;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 16px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #dc3545 0%, #c82333 100%);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(90deg, #c82333 0%, #dc3545 100%);
+}
+
+.dashboard-main {
+    flex: 1;
+    margin-left: 0;
+    padding: 80px 16px 16px 16px;
+    min-height: 100vh;
+    background: #f8f9fa;
+}
+
+.dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-content h2 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* Provider Sections */
+.provider-section {
+    display: none;
+}
+
+.provider-section.active {
+    display: block;
+}
+
+/* Status Card */
+.status-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.status-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.availability-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: var(--primary);
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+.availability-text {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.status-stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+/* Schedule Card */
+.schedule-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-card h3 {
+    margin: 0 0 1rem 0;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.schedule-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+}
+
+.schedule-time {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 1.1rem;
+    min-width: 60px;
+}
+
+.schedule-info {
+    flex: 1;
+}
+
+.client-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.case-type {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.schedule-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.schedule-status.upcoming {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.schedule-status.confirmed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-icon {
+    font-size: 2rem;
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-title {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+/* Calls Section */
+.calls-container {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.call-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.call-item.active-call {
+    background: #dcfce7;
+    border: 1px solid #16a34a;
+}
+
+.call-item.pending {
+    background: #fef3c7;
+    border: 1px solid #eab308;
+}
+
+.call-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.client-avatar .avatar-circle {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.call-details .client-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.call-duration {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.call-subject {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.call-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-call-action {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-call-action.accept {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-call-action.decline {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-call-action.end {
+    background: #dc2626;
+    color: white;
+}
+
+.pending-calls h4 {
+    color: var(--text-primary);
+    margin: 1.5rem 0 1rem 0;
+}
+
+/* Appointments Section */
+.appointments-container {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+    min-width: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.appointment-item {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    border: 2px solid #e2e8f0;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.appointment-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.appointment-item.upcoming {
+    border-left-color: #eab308;
+    background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%);
+}
+
+.appointment-item.confirmed {
+    border-left-color: #16a34a;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+}
+
+.appointment-item.completed {
+    border-left-color: #6366f1;
+    background: linear-gradient(135deg, #f0f0ff 0%, #ffffff 100%);
+}
+
+.appointment-item.canceled {
+    border-left-color: #dc2626;
+    background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+    opacity: 0.85;
+}
+
+.appointment-time {
+    text-align: center;
+    min-width: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.appointment-time .date {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.appointment-time .time {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.appointment-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.appointment-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.client-avatar .avatar-circle.small {
+    width: 36px;
+    height: 36px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.client-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.client-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.client-contact {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.appointment-type {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    overflow: hidden;
+}
+
+.appointment-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.appointment-meta .duration {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: #f1f5f9;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+}
+
+.appointment-meta .fee {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.appointment-meta .fee.canceled-fee {
+    color: #dc2626;
+    text-decoration: line-through;
+}
+
+.appointment-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+    min-width: 100px;
+}
+
+.btn-appointment {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+.btn-appointment.confirm {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-appointment.confirm:hover {
+    background: #15803d;
+}
+
+.btn-appointment.reschedule {
+    background: #eab308;
+    color: white;
+}
+
+.btn-appointment.reschedule:hover {
+    background: #d97706;
+}
+
+.status-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 80px;
+}
+
+.status-badge.confirmed {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}
+
+.status-badge.completed {
+    background: #e0e7ff;
+    color: #3730a3;
+    border: 1px solid #6366f1;
+}
+
+.status-badge.canceled {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #ef4444;
+}
+
+/* Earnings Section */
+.earnings-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.earnings-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.earnings-card h4 {
+    margin: 0 0 1rem 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.earnings-amount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.earnings-change {
+    font-size: 0.9rem;
+}
+
+.earnings-change.positive {
+    color: #16a34a;
+}
+
+.earnings-details {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.earnings-details h4 {
+    margin: 0 0 1rem 0;
+    color: var(--text-primary);
+}
+
+.earnings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.earning-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+}
+
+.earning-info .client-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.earning-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.earning-amount {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+/* Payment & Invoice Settings */
+.payment-settings, .invoice-settings {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+}
+
+.payment-settings h4, .invoice-settings h4 {
+    margin: 0 0 1.5rem 0;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.75rem;
+}
+
+.payment-form, .invoice-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.iban-input {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.form-help {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.payment-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.payment-schedule label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.payment-actions, .invoice-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Profile Section */
+.profile-form {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background: #fafbfc;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.form-textarea {
+    height: auto;
+    min-height: 100px;
+    align-items: flex-start;
+    padding-top: 0.875rem;
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+    background: white;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.profile-photo {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+}
+
+.avatar-circle.large {
+    width: 80px;
+    height: 80px;
+    font-size: 1.5rem;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.btn-upload {
+    padding: 0.75rem 1.25rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.btn-upload:hover {
+    background: #f8f9fa;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.working-hours {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.working-hours span {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.form-input.small {
+    width: auto;
+    min-width: 140px;
+    flex: 1;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row .form-group label {
+    margin-bottom: 0.5rem;
+}
+
+.form-row .form-group .form-input,
+.form-row .form-group .rate-input-container {
+    flex: 1;
+}
+
+/* Special styling for rate fields to make them smaller */
+.form-row .form-group .rate-input-container {
+    max-width: 180px;
+}
+
+.form-row.rate-row {
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.form-row.rate-row .form-group {
+    flex: 0 0 auto;
+    max-width: 200px;
+}
+
+.rate-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 180px;
+}
+
+.rate-input-container .form-input {
+    padding-right: 3rem;
+    flex: 1;
+    width: 100%;
+}
+
+.rate-suffix {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-secondary {
+    padding: 0.875rem 1.5rem;
+    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+    color: var(--text-primary);
+}
+
+.btn-primary {
+    padding: 0.875rem 1.5rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .status-stats {
+        gap: 1rem;
+    }
+    
+    .call-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .call-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+      .appointment-item {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .appointment-item .appointment-time {
+        text-align: left;
+        min-width: auto;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .appointment-item .appointment-header {
+        gap: 0.5rem;
+    }
+    
+    .appointment-item .appointment-actions {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        gap: 0.75rem;
+    }
+    
+    .appointment-item .btn-appointment,
+    .appointment-item .status-badge {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .appointment-filters {
+        justify-content: center;
+        gap: 0.375rem;
+    }
+      .filter-btn {
+        flex: 1;
+        min-width: 0;
+        padding: 0.4rem 0.2rem;
+        font-size: 0.75rem;
+    }
+      .earnings-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .payment-actions, .invoice-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .payment-actions button, .invoice-actions button {
+        width: 100%;
+    }
+    
+    .working-hours {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .appointment-filters {
+        justify-content: center;
+    }
+    
+    .filter-btn {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .profile-photo {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .form-row.rate-row {
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: space-between;
+    }
+    
+    .form-row.rate-row .form-group {
+        flex: 1;
+        max-width: none;
+    }
+    
+    .form-row .form-group {
+        margin-bottom: 1.25rem;
+    }
+    
+    .working-hours {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+    
+    .form-input.small {
+        min-width: 0;
+        width: 100%;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .profile-actions button {
+        width: 100%;
+    }
+    
+    .rate-input-container {
+        position: relative;
+    }
+}
+</style>
+
+<script>
+function showProviderSection(sectionName) {
+    // Hide all sections
+    document.querySelectorAll('.provider-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Remove active class from all menu links
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // Show selected section
+    document.getElementById(sectionName + '-section').classList.add('active');
+    
+    // Add active class to clicked menu link
+    event.target.classList.add('active');
+    
+    // Close side menu on mobile
+    document.getElementById('sidemenu-toggle').checked = false;
+}
+
+function filterAppointments(filter) {
+    // Update filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Filter appointments based on status
+    const appointments = document.querySelectorAll('.appointment-item');
+    appointments.forEach(appointment => {
+        const status = appointment.getAttribute('data-status');
+        
+        if (filter === 'all') {
+            appointment.style.display = 'flex';
+        } else if (filter === 'today') {
+            // Show appointments for today (25 Tem in this example)
+            const dateElement = appointment.querySelector('.appointment-time .date');
+            if (dateElement && dateElement.textContent.includes('25 Tem')) {
+                appointment.style.display = 'flex';
+            } else {
+                appointment.style.display = 'none';
+            }
+        } else if (filter === 'upcoming') {
+            if (status === 'upcoming') {
+                appointment.style.display = 'flex';
+            } else {
+                appointment.style.display = 'none';
+            }
+        } else if (filter === 'completed') {
+            if (status === 'completed') {
+                appointment.style.display = 'flex';
+            } else {
+                appointment.style.display = 'none';
+            }
+        } else if (filter === 'canceled') {
+            if (status === 'canceled') {
+                appointment.style.display = 'flex';
+            } else {
+                appointment.style.display = 'none';
+            }
+        } else {
+            appointment.style.display = 'flex';
+        }
+    });
+}
+
+// Close side menu when clicking overlay
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('sidemenu-overlay')) {
+        document.getElementById('sidemenu-toggle').checked = false;
+    }
+});
+
+// Toggle availability status
+document.getElementById('availabilityToggle').addEventListener('change', function() {
+    const statusText = document.querySelector('.availability-text');
+    if (this.checked) {
+        statusText.textContent = 'Müsait';
+        statusText.style.color = '#16a34a';
+    } else {
+        statusText.textContent = 'Müsait Değil';
+        statusText.style.color = '#dc2626';
+    }
+});
+
+// IBAN formatting
+document.addEventListener('DOMContentLoaded', function() {
+    const ibanInput = document.querySelector('.iban-input');
+    if (ibanInput) {
+        ibanInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+            value = value.toUpperCase();
+            
+            // Format IBAN with spaces every 4 characters
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            
+            e.target.value = formattedValue;
+        });
+        
+        // Validate IBAN on blur
+        ibanInput.addEventListener('blur', function(e) {
+            const iban = e.target.value.replace(/\s+/g, '');
+            if (iban.length > 0 && (iban.length < 15 || iban.length > 34)) {
+                e.target.style.borderColor = '#dc2626';
+                e.target.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.1)';
+            } else {
+                e.target.style.borderColor = '#e2e8f0';
+                e.target.style.boxShadow = 'none';
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
