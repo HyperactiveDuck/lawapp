@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '192.168.1.47',
-    'lawapp.onrender.com',  # Replace with your actual Render URL  # Allow all hosts for now - restrict this in production
+    'lawapp-dsla.onrender.com/',  # Replace with your actual Render URL  # Allow all hosts for now - restrict this in production
 ]
 
 
