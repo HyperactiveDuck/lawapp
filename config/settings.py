@@ -29,7 +29,7 @@ DEBUG = True  # Temporarily enable debug to see error details
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'lawapp-dsla.onrender.com/',  # Replace with your actual Render URL  # Allow all hosts for now - restrict this in production
+    'lawapp-dsla.onrender.com',  # Replace with your actual Render URL  # Allow all hosts for now - restrict this in production
 ]
 
 
