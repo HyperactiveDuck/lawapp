@@ -24,13 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-^)rk2i%x@9-_ct%z07d^(w&m2pn17ztt353=h8n+=84pa8(4h_')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = True  # Temporarily enable debug to see error details
 
 ALLOWED_HOSTS = [
     'localhost',
+    '127.0.0.1',
     '192.168.1.47',
-    'lawapp.onrender.com',  # Replace with your actual Render URL
-    '*',  # Allow all hosts for now - restrict this in production
+    'lawapp.onrender.com',  # Replace with your actual Render URL  # Allow all hosts for now - restrict this in production
 ]
 
 

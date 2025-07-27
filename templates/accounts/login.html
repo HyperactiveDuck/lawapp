@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="auth-container">
+    <img src="{% static 'images/logo.jpeg' %}" alt="LawApp Logo" style="width: 160px; height: 160px; object-fit: contain; margin-bottom: 20px; border-radius: 8px;">
     <h2>Giriş Yap</h2>
     <form method="post" class="auth-form">
         {% csrf_token %}

@@ -10,11 +10,27 @@
             <option value="ticaret">Ticaret Hukuku</option>
             <option value="iş">İş Hukuku</option>
         </select>
+        <select name="city" class="search-select" id="citySelect" onchange="filterLawyers()">
+            <option value="">Tüm Şehirler</option>
+            <option value="istanbul">İstanbul</option>
+            <option value="ankara">Ankara</option>
+            <option value="izmir">İzmir</option>
+            <option value="bursa">Bursa</option>
+            <option value="antalya">Antalya</option>
+        </select>
+        <select name="language" class="search-select" id="languageSelect" onchange="filterLawyers()">
+            <option value="">Tüm Diller</option>
+            <option value="ingilizce">İngilizce</option>
+            <option value="almanca">Almanca</option>
+            <option value="fransizca">Fransızca</option>
+            <option value="arapca">Arapça</option>
+            <option value="rusca">Rusça</option>
+        </select>
         <button type="button" class="btn-primary" onclick="filterLawyers()">Ara</button>
     </form>
       <div class="provider-list">
         <!-- Demo: Enhanced lawyer cards with detailed information -->
-        <div class="provider-card" data-specialty="ceza" data-name="ayşe yılmaz" data-expertise="ceza hukuku ağır ceza">
+        <div class="provider-card" data-specialty="ceza" data-name="ayşe yılmaz" data-expertise="ceza hukuku ağır ceza" data-location="istanbul beşiktaş" data-languages="türkçe ingilizce almanca" onclick="openLawyerProfileModal('ayse-yilmaz', 'Av. Ayşe Yılmaz', 'Ceza Hukuku', 'İstanbul, Beşiktaş', 'Ceza Hukuku, Ağır Ceza', 'Türkçe, İngilizce, Almanca', '45 ₺/dk', 'available')">
             <div class="provider-header">
                 <div class="provider-info">
                     <div class="provider-avatar">
@@ -43,11 +59,11 @@
             </div>            <div class="provider-footer">
                 <div class="price-info">
                     <span class="price">45 ₺/dk</span>
-                    <span class="min-price">(Min. 27 ₺)</span>
+                    <span class="min-price">(Min. 26.4 ₺)</span>
                 </div>
-                <button class="btn-primary call-btn" onclick="openLegalWarning('ayse-yilmaz', 'Av. Ayşe Yılmaz', 'Ceza Hukuku', 'İstanbul, Beşiktaş', 'Ceza Hukuku, Ağır Ceza', 'Türkçe, İngilizce, Almanca', '45 ₺/dk')">Aramaya Başla</button>
+                <button class="btn-primary call-btn" onclick="event.stopPropagation(); openLegalWarning('ayse-yilmaz', 'Av. Ayşe Yılmaz', 'Ceza Hukuku', 'İstanbul, Beşiktaş', 'Ceza Hukuku, Ağır Ceza', 'Türkçe, İngilizce, Almanca', '45 ₺/dk')">Aramaya Başla</button>
             </div>
-        </div>        <div class="provider-card" data-specialty="aile" data-name="mehmet demir" data-expertise="aile hukuku boşanma velayet">
+        </div>        <div class="provider-card" data-specialty="aile" data-name="mehmet demir" data-expertise="aile hukuku boşanma velayet" data-location="ankara çankaya" data-languages="türkçe ingilizce" onclick="openLawyerProfileModal('mehmet-demir', 'Av. Mehmet Demir', 'Aile Hukuku', 'Ankara, Çankaya', 'Aile Hukuku, Boşanma, Velayet', 'Türkçe, İngilizce', '38 ₺/dk', 'in-call')">
             <div class="provider-header">
                 <div class="provider-info">
                     <div class="provider-avatar">
@@ -77,11 +93,11 @@
             <div class="provider-footer">
                 <div class="price-info">
                     <span class="price">38 ₺/dk</span>
-                    <span class="min-price">(Min. 27 ₺)</span>
+                    <span class="min-price">(Min. 26.4 ₺)</span>
                 </div>
-                <button class="btn-secondary call-btn" disabled>Meşgul</button>
+                <button class="btn-secondary call-btn" disabled onclick="event.stopPropagation();">Meşgul</button>
             </div>
-        </div>        <div class="provider-card" data-specialty="ticaret" data-name="elif kaya" data-expertise="ticaret şirketler sözleşme">
+        </div>        <div class="provider-card" data-specialty="ticaret" data-name="elif kaya" data-expertise="ticaret şirketler sözleşme" data-location="izmir konak" data-languages="türkçe ingilizce fransızca" onclick="openLawyerProfileModal('elif-kaya', 'Av. Elif Kaya', 'Ticaret Hukuku', 'İzmir, Konak', 'Ticaret, Şirketler, Sözleşme', 'Türkçe, İngilizce, Fransızca', '52 ₺/dk', 'scheduled')">
             <div class="provider-header">
                 <div class="provider-info">
                     <div class="provider-avatar">
@@ -110,11 +126,11 @@
             </div>            <div class="provider-footer">
                 <div class="price-info">
                     <span class="price">52 ₺/dk</span>
-                    <span class="min-price">(Min. 27 ₺)</span>
+                    <span class="min-price">(Min. 26.4 ₺)</span>
                 </div>
-                <button class="btn-primary call-btn" onclick="openAppointmentBooking('elif-kaya', 'Av. Elif Kaya', 'Ticaret Hukuku', 'İzmir, Konak', 'Ticaret, Şirketler, Sözleşme', 'Türkçe, İngilizce, Fransızca', '52 ₺/dk')">Randevu Al</button>
+                <button class="btn-primary call-btn" onclick="event.stopPropagation(); openAppointmentBooking('elif-kaya', 'Av. Elif Kaya', 'Ticaret Hukuku', 'İzmir, Konak', 'Ticaret, Şirketler, Sözleşme', 'Türkçe, İngilizce, Fransızca', '52 ₺/dk')">Randevu Al</button>
             </div>
-        </div>        <div class="provider-card" data-specialty="iş" data-name="can özkan" data-expertise="iş hukuku işçi hakları">
+        </div>        <div class="provider-card" data-specialty="iş" data-name="can özkan" data-expertise="iş hukuku işçi hakları" data-location="bursa osmangazi" data-languages="türkçe ingilizce arapça" onclick="openLawyerProfileModal('can-ozkan', 'Av. Can Özkan', 'İş Hukuku', 'Bursa, Osmangazi', 'İş Hukuku, İşçi Hakları', 'Türkçe, İngilizce, Arapça', '42 ₺/dk', 'available')">
             <div class="provider-header">
                 <div class="provider-info">
                     <div class="provider-avatar">
@@ -143,9 +159,9 @@
             </div>            <div class="provider-footer">
                 <div class="price-info">
                     <span class="price">42 ₺/dk</span>
-                    <span class="min-price">(Min. 27 ₺)</span>
+                    <span class="min-price">(Min. 26.4 ₺)</span>
                 </div>
-                <button class="btn-primary call-btn" onclick="openLegalWarning('can-ozkan', 'Av. Can Özkan', 'İş Hukuku', 'Bursa, Osmangazi', 'İş Hukuku, İşçi Hakları', 'Türkçe, İngilizce, Arapça', '42 ₺/dk')">Aramaya Başla</button>
+                <button class="btn-primary call-btn" onclick="event.stopPropagation(); openLegalWarning('can-ozkan', 'Av. Can Özkan', 'İş Hukuku', 'Bursa, Osmangazi', 'İş Hukuku, İşçi Hakları', 'Türkçe, İngilizce, Arapça', '42 ₺/dk')">Aramaya Başla</button>
             </div>
         </div>    </div>
 </div>
@@ -160,7 +176,7 @@
                 <li>Bu görüşme kayıt altına alınabilir</li>
                 <li>Avukat-müvekkil gizliliği kapsamında korunacaktır</li>
                 <li>Dakika başına ücretlendirme yapılacaktır</li>
-                <li>Minimum 27 ₺ ücret uygulanacaktır</li>
+                <li>Minimum 26.4 ₺ ücret uygulanacaktır</li>
                 <li>Görüşme öncesi ödeme yapılması gerekmektedir</li>
             </ul>
             <p><strong>Devam ederek bu koşulları kabul etmiş sayılırsınız.</strong></p>
@@ -202,7 +218,7 @@
                     
                     <div class="price-display">
                         <span class="modal-price" id="modalLawyerPrice">45 ₺/dk</span>
-                        <span class="modal-min-price">(Minimum 27 ₺)</span>
+                        <span class="modal-min-price">(Minimum 26.4 ₺)</span>
                     </div>
                 </div>
             </div>
@@ -428,6 +444,7 @@
     transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .provider-card:hover {
@@ -1570,6 +1587,8 @@ document.addEventListener('click', function(event) {
 function filterLawyers() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     const specialtySelect = document.getElementById('specialtySelect').value;
+    const citySelect = document.getElementById('citySelect').value;
+    const languageSelect = document.getElementById('languageSelect').value;
     const providerCards = document.querySelectorAll('.provider-card');
     let visibleCount = 0;
     
@@ -1577,9 +1596,17 @@ function filterLawyers() {
         const specialty = card.getAttribute('data-specialty');
         const name = card.getAttribute('data-name');
         const expertise = card.getAttribute('data-expertise');
+        const location = card.getAttribute('data-location');
+        const languages = card.getAttribute('data-languages');
         
         // Check specialty filter
         const specialtyMatch = !specialtySelect || specialty === specialtySelect;
+        
+        // Check city filter
+        const cityMatch = !citySelect || location.toLowerCase().includes(citySelect);
+        
+        // Check language filter
+        const languageMatch = !languageSelect || languages.toLowerCase().includes(languageSelect);
         
         // Check search text filter
         const searchMatch = !searchInput || 
@@ -1587,7 +1614,7 @@ function filterLawyers() {
                           expertise.includes(searchInput) ||
                           specialty.includes(searchInput);
           // Show/hide card based on filters
-        if (specialtyMatch && searchMatch) {
+        if (specialtyMatch && cityMatch && languageMatch && searchMatch) {
             card.style.display = '';
             visibleCount++;
         } else {
@@ -1630,7 +1657,65 @@ function showNoResultsMessage(show) {
 function clearFilters() {
     document.getElementById('searchInput').value = '';
     document.getElementById('specialtySelect').value = '';
+    document.getElementById('citySelect').value = '';
+    document.getElementById('languageSelect').value = '';
     filterLawyers();
+}
+
+// New function to open lawyer profile modal
+function openLawyerProfileModal(lawyerId, name, specialty, location, expertise, languages, price, status) {
+    currentLawyer = {
+        id: lawyerId,
+        name: name,
+        specialty: specialty,
+        location: location,
+        expertise: expertise,
+        languages: languages,
+        price: price,
+        status: status,
+        initials: name.split(' ').map(n => n.charAt(0)).join('').slice(-2)
+    };
+    
+    // Update lawyer info modal with current lawyer data
+    document.getElementById('modalAvatarCircle').textContent = currentLawyer.initials;
+    document.getElementById('modalLawyerName').textContent = currentLawyer.name;
+    document.getElementById('modalLawyerSpecialty').textContent = currentLawyer.specialty;
+    document.getElementById('modalLawyerLocation').textContent = currentLawyer.location;
+    document.getElementById('modalLawyerExpertise').textContent = currentLawyer.expertise;
+    document.getElementById('modalLawyerLanguages').textContent = currentLawyer.languages;
+    document.getElementById('modalLawyerPrice').textContent = currentLawyer.price;
+    
+    // Update the call button based on lawyer status
+    const callBtn = document.querySelector('.call-start-btn');
+    if (status === 'in-call') {
+        callBtn.textContent = 'Meşgul';
+        callBtn.disabled = true;
+        callBtn.style.background = '#e0e0e0';
+        callBtn.style.color = '#888';
+        callBtn.style.cursor = 'not-allowed';
+    } else if (status === 'scheduled') {
+        callBtn.textContent = 'Randevu Al';
+        callBtn.disabled = false;
+        callBtn.style.background = 'linear-gradient(90deg, #ff9800, #f57c00)';
+        callBtn.style.color = 'white';
+        callBtn.style.cursor = 'pointer';
+        callBtn.onclick = function() {
+            closeLawyerInfo();
+            openAppointmentBooking(lawyerId, name, specialty, location, expertise, languages, price);
+        };
+    } else {
+        callBtn.textContent = 'Aramayı Başlat';
+        callBtn.disabled = false;
+        callBtn.style.background = 'linear-gradient(90deg, #4caf50, #45a049)';
+        callBtn.style.color = 'white';
+        callBtn.style.cursor = 'pointer';
+        callBtn.onclick = function() {
+            startCall();
+        };
+    }
+    
+    document.getElementById('lawyerInfoModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 </script>
 

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block viewport %}
 <div class="full-viewport">
     <input type="checkbox" id="sidemenu-toggle" class="sidemenu-toggle" hidden>
@@ -9,6 +10,7 @@
     
     <nav class="provider-sidemenu">
         <div class="menu-header">
+            <img src="{% static 'images/logo.jpeg' %}" alt="LawApp Logo" style="width: 120px; height: 120px; object-fit: contain; margin: 0 auto 16px auto; display: block; border-radius: 8px;">
             <div class="provider-profile">
                 <div class="provider-avatar">
                     <div class="avatar-circle">MY</div>
@@ -140,7 +142,7 @@
                             </div>
                         </div>
                         <div class="call-actions">
-                            <button class="btn-call-action end">Görüşmeyi Sonlandır</button>
+                            <button class="btn-call-action end" onclick="openConfirmationModal('Görüşmeyi Sonlandır', 'Ayşe Demir ile görüşmeyi sonlandırmak istediğinizden emin misiniz?', () => { alert('Görüşme sonlandırıldı (Demo)'); closeConfirmationModal(); })">Görüşmeyi Sonlandır</button>
                         </div>
                     </div>
                     
@@ -157,8 +159,8 @@
                                 </div>
                             </div>
                             <div class="call-actions">
-                                <button class="btn-call-action accept">Kabul Et</button>
-                                <button class="btn-call-action decline">Reddet</button>
+                                <button class="btn-call-action accept" onclick="openConfirmationModal('Çağrıyı Kabul Et', 'Mehmet Kaya ile görüşmeyi kabul etmek istediğinizden emin misiniz?', () => { alert('Çağrı kabul edildi (Demo)'); closeConfirmationModal(); })">Kabul Et</button>
+                                <button class="btn-call-action decline" onclick="openConfirmationModal('Çağrıyı Reddet', 'Mehmet Kaya çağrısını reddetmek istediğinizden emin misiniz?', () => { alert('Çağrı reddedildi (Demo)'); closeConfirmationModal(); })">Reddet</button>
                             </div>
                         </div>
                         <div class="call-item pending">
@@ -172,8 +174,8 @@
                                 </div>
                             </div>
                             <div class="call-actions">
-                                <button class="btn-call-action accept">Kabul Et</button>
-                                <button class="btn-call-action decline">Reddet</button>
+                                <button class="btn-call-action accept" onclick="openConfirmationModal('Çağrıyı Kabul Et', 'Fatma Özkan ile görüşmeyi kabul etmek istediğinizden emin misiniz?', () => { alert('Çağrı kabul edildi (Demo)'); closeConfirmationModal(); })">Kabul Et</button>
+                                <button class="btn-call-action decline" onclick="openConfirmationModal('Çağrıyı Reddet', 'Fatma Özkan çağrısını reddetmek istediğinizden emin misiniz?', () => { alert('Çağrı reddedildi (Demo)'); closeConfirmationModal(); })">Reddet</button>
                             </div>
                         </div>
                     </div>
@@ -214,8 +216,8 @@
                                 </div>
                             </div>
                             <div class="appointment-actions">
-                                <button class="btn-appointment confirm">Onayla</button>
-                                <button class="btn-appointment reschedule">Ertele</button>
+                                <button class="btn-appointment confirm" onclick="openConfirmationModal('Randevuyu Onayla', 'Ayşe Demir randevusunu onaylamak istediğinizden emin misiniz?', () => { alert('Randevu onaylandı (Demo)'); closeConfirmationModal(); })">Onayla</button>
+                                <button class="btn-appointment reschedule" onclick="openConfirmationModal('Randevuyu Ertele', 'Ayşe Demir randevusunu ertelemek istediğinizden emin misiniz?', () => { alert('Randevu ertelendi (Demo)'); closeConfirmationModal(); })">Ertele</button>
                             </div>
                         </div>
                         
@@ -319,8 +321,8 @@
                                 </div>
                             </div>
                             <div class="appointment-actions">
-                                <button class="btn-appointment confirm">Onayla</button>
-                                <button class="btn-appointment reschedule">Ertele</button>
+                                <button class="btn-appointment confirm" onclick="openConfirmationModal('Randevuyu Onayla', 'Zeynep Kara randevusunu onaylamak istediğinizden emin misiniz?', () => { alert('Randevu onaylandı (Demo)'); closeConfirmationModal(); })">Onayla</button>
+                                <button class="btn-appointment reschedule" onclick="openConfirmationModal('Randevuyu Ertele', 'Zeynep Kara randevusunu ertelemek istediğinizden emin misiniz?', () => { alert('Randevu ertelendi (Demo)'); closeConfirmationModal(); })">Ertele</button>
                             </div>
                         </div>
                     </div>
@@ -404,8 +406,8 @@
                         </div>
                         
                         <div class="payment-actions">
-                            <button type="button" class="btn-secondary">İptal</button>
-                            <button type="submit" class="btn-primary">Ödeme Bilgilerini Kaydet</button>
+                            <button type="button" class="btn-secondary" onclick="openConfirmationModal('İşlemi İptal Et', 'Ödeme ayarlarında yaptığınız değişiklikleri iptal etmek istediğinizden emin misiniz?', () => { location.reload(); })">İptal</button>
+                            <button type="submit" class="btn-primary" onclick="openConfirmationModal('Ödeme Bilgilerini Kaydet', 'Ödeme bilgilerinizi kaydetmek istediğinizden emin misiniz?', () => { alert('Ödeme bilgileri kaydedildi (Demo)'); closeConfirmationModal(); })">Ödeme Bilgilerini Kaydet</button>
                         </div>
                     </div>
                 </div>
@@ -443,8 +445,8 @@
                         </div>
                         
                         <div class="invoice-actions">
-                            <button type="button" class="btn-secondary">İptal</button>
-                            <button type="submit" class="btn-primary">Fatura Bilgilerini Kaydet</button>
+                            <button type="button" class="btn-secondary" onclick="openConfirmationModal('İşlemi İptal Et', 'Fatura ayarlarında yaptığınız değişiklikleri iptal etmek istediğinizden emin misiniz?', () => { location.reload(); })">İptal</button>
+                            <button type="submit" class="btn-primary" onclick="openConfirmationModal('Fatura Bilgilerini Kaydet', 'Fatura bilgilerinizi kaydetmek istediğinizden emin misiniz?', () => { alert('Fatura bilgileri kaydedildi (Demo)'); closeConfirmationModal(); })">Fatura Bilgilerini Kaydet</button>
                         </div>
                     </div>
                 </div>
@@ -501,7 +503,7 @@
                         <div class="form-group">
                             <label>Minimum Ücret</label>
                             <div class="rate-input-container">
-                                <input type="number" value="27" class="form-input" min="10" max="100">
+                                <input type="number" value="26.4" readonly class="form-input">
                                 <span class="rate-suffix">₺</span>
                             </div>
                         </div>
@@ -532,14 +534,30 @@
                     </div>
                     
                     <div class="profile-actions">
-                        <button type="button" class="btn-secondary">İptal</button>
-                        <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+                        <button type="button" class="btn-secondary" onclick="openConfirmationModal('İşlemi İptal Et', 'Profil ayarlarında yaptığınız değişiklikleri iptal etmek istediğinizden emin misiniz?', () => { location.reload(); })">İptal</button>
+                        <button type="submit" class="btn-primary" onclick="openConfirmationModal('Değişiklikleri Kaydet', 'Profil değişikliklerinizi kaydetmek istediğinizden emin misiniz?', () => { alert('Profil değişiklikleri kaydedildi (Demo)'); closeConfirmationModal(); })">Değişiklikleri Kaydet</button>
                     </div>
                 </div>
             </div>
         </div>
         {% endblock %}
     </main>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="confirmation-modal">
+    <div class="confirmation-modal-content">
+        <div class="confirmation-header">
+            <h3 id="confirmationTitle">İşlemi Onayla</h3>
+        </div>
+        <div class="confirmation-body">
+            <p id="confirmationMessage">Bu işlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+        </div>
+        <div class="confirmation-actions">
+            <button type="button" class="btn-secondary" onclick="closeConfirmationModal()">Hayır</button>
+            <button type="button" class="btn-primary" id="confirmButton" onclick="executeConfirmedAction()">Evet</button>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -1635,6 +1653,61 @@ input:checked + .toggle-slider:before {
     transform: translateY(-1px);
 }
 
+/* Confirmation Modal */
+.confirmation-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1002;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmation-modal-content {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.confirmation-header {
+    margin-bottom: 1rem;
+}
+
+.confirmation-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.confirmation-body {
+    margin-bottom: 1.5rem;
+}
+
+.confirmation-body p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.confirmation-actions button {
+    flex: 1;
+    min-width: 120px;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .stats-grid {
@@ -1905,5 +1978,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Confirmation modal functions
+function openConfirmationModal(title, message, confirmCallback) {
+    document.getElementById('confirmationTitle').textContent = title;
+    document.getElementById('confirmationMessage').textContent = message;
+    document.getElementById('confirmButton').onclick = confirmCallback;
+    document.getElementById('confirmationModal').style.display = 'flex';
+}
+
+function closeConfirmationModal() {
+    document.getElementById('confirmationModal').style.display = 'none';
+}
+
+function executeConfirmedAction() {
+    // Execute the confirmed action here
+    // For example, submit a form or make an API call
+
+    // Close the modal after the action is executed
+    closeConfirmationModal();
+}
 </script>
 {% endblock %}
